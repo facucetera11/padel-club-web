@@ -118,9 +118,12 @@ function initBookingPage() {
   initQuickDates();
   renderAvailToday();
 
+  const today = new Date().toISOString().split("T")[0];
   const f = document.getElementById("sel-fecha");
-  if (!f.value) {
-    f.value = new Date().toISOString().split("T")[0];
+  // Bloquear fechas pasadas
+  f.min = today;
+  if (!f.value || f.value < today) {
+    f.value = today;
     // Activar botón "Hoy" por defecto
     const hoyBtn = document.querySelector(".bk-quick-btn");
     if (hoyBtn) hoyBtn.classList.add("active");
@@ -293,7 +296,10 @@ function resetBooking() {
   document.querySelectorAll(".bk-court-card").forEach(c => c.classList.remove("selected"));
   const root = document.getElementById("bk-form-root");
   if (root) delete root.dataset.cancha;
-  document.getElementById("sel-fecha").value  = new Date().toISOString().split("T")[0];
+  const _today = new Date().toISOString().split("T")[0];
+  const _fd = document.getElementById("sel-fecha");
+  _fd.min   = _today;
+  _fd.value = _today;
   document.getElementById("inp-nombre").value = "";
   document.getElementById("inp-tel").value    = "";
   document.querySelectorAll(".bk-quick-btn").forEach((b, i) => { b.classList.toggle("active", i === 0); });
