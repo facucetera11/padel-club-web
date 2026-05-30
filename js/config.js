@@ -19,31 +19,26 @@ const CONFIG = {
     {
       id: 1,
       nombre:    "Cancha 1",
-      subtitulo: "Sintetico azul · Blindex",
-      descripcion: "Al aire libre, ideal para partidas y torneos",
-      tag: "CANCHA NORTE",
+      subtitulo: "Sintetico · Blindex",
+      descripcion: "Al aire libre",
+
       caracteristicas: [
-        "Piso sintético color azul",
+        "Pasto sintético",
         "Paredes de blindex",
         "Iluminación LED nocturna",
         "Al aire libre",
-        "Capacidad 4 jugadores",
-        "Alquiler de paletas",
       ]
     },
     {
       id: 2,
       nombre:    "Cancha 2",
-      subtitulo: "Sintetico azul · Blindex",
-      descripcion: "Al aire libre, clásica y rápida",
-      tag: "CANCHA SUR",
+      subtitulo: "Sintetico · Blindex",
+      descripcion: "Al aire libre",
       caracteristicas: [
-        "Piso sintético color azul",
+        "Pasto sintético",
         "Paredes de blindex",
         "Iluminación LED nocturna",
         "Al aire libre",
-        "Capacidad 4 jugadores",
-        "Zona de calentamiento",
       ]
     }
   ],
