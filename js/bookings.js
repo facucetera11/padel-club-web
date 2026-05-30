@@ -1,5 +1,5 @@
 // ============================================================
-//  bookings.js — Lógica de reservas (mejorado)
+//  bookings.js — Lógica de reservas
 // ============================================================
 
 let bookings = [];
@@ -20,11 +20,12 @@ function getFutureDate(daysAhead) {
   return d.toISOString().split("T")[0];
 }
 
-/* ── Selección de cancha con cards visuales ── */
+/* ── Selección de cancha ── */
 function selectCourt(courtId, el) {
   document.querySelectorAll(".bk-court-card").forEach(c => c.classList.remove("selected"));
   el.classList.add("selected");
-  document.getElementById("sel-cancha").value = courtId;
+  // Guardar en data attribute del form para no depender de select vacío
+  document.getElementById("bk-form-root").dataset.cancha = courtId;
   updateSlots();
 }
 
@@ -32,12 +33,14 @@ function selectCourt(courtId, el) {
 function initQuickDates() {
   const container = document.getElementById("bk-quick-dates");
   if (!container) return;
+  const today = new Date().toISOString().split("T")[0];
   const labels = ["Hoy", "Mañana", "Pasado"];
   container.innerHTML = labels.map((lb, i) => {
     const d = new Date();
     d.setDate(d.getDate() + i);
     const val = d.toISOString().split("T")[0];
-    return `<button class="bk-quick-btn" onclick="setQuickDate('${val}', this)">${lb}</button>`;
+    const isActive = val === document.getElementById("sel-fecha").value;
+    return `<button class="bk-quick-btn${isActive ? " active" : ""}" onclick="setQuickDate('${val}', this)">${lb}</button>`;
   }).join("");
 }
 
@@ -48,7 +51,7 @@ function setQuickDate(val, el) {
   updateSlots();
 }
 
-/* ── Actualizar disponibilidad hoy en sidebar ── */
+/* ── Disponibilidad hoy sidebar ── */
 function renderAvailToday() {
   const container = document.getElementById("bk-avail-today-content");
   if (!container) return;
@@ -58,9 +61,9 @@ function renderAvailToday() {
   const hours = getHours();
 
   const rows = CONFIG.canchas.map(c => {
-    const taken = bookings.filter(b => b.cancha === c.nombre && b.fecha === today && b.estado !== "cancelled").map(b => b.hora);
+    const taken  = bookings.filter(b => b.cancha === c.nombre && b.fecha === today && b.estado !== "cancelled").map(b => b.hora);
     const libres = hours.filter(h => !taken.includes(h) && parseInt(h) > curH).length;
-    const pct = hours.length > 0 ? Math.round(((hours.length - taken.length) / hours.length) * 100) : 0;
+    const pct    = hours.length > 0 ? Math.round(((hours.length - taken.length) / hours.length) * 100) : 0;
     return `<div class="avail-today-row">
       <span class="avail-court-name">${c.nombre}</span>
       <div class="avail-mini-bar"><div class="avail-mini-fill" style="width:${100 - pct}%"></div></div>
@@ -70,45 +73,62 @@ function renderAvailToday() {
   container.innerHTML = rows || `<p style="color:var(--muted);font-size:13px">Sin datos</p>`;
 }
 
-/* ── precio por hora en sidebar ── */
-function initBookingPage() {
-  // Verificar si el club está cerrado
-  const closedBanner = document.getElementById("bk-closed-banner");
-  const bkLayout = document.querySelector(".bk-layout");
-  if (!CONFIG.clubAbierto) {
-    if (closedBanner) closedBanner.style.display = "flex";
-    if (bkLayout) bkLayout.style.display = "none";
-    return;
-  } else {
-    if (closedBanner) closedBanner.style.display = "none";
-    if (bkLayout) bkLayout.style.display = "flex";
-  }
-
-  const el = document.getElementById("bk-precio-hora");
-  if (el) el.textContent = "$" + CONFIG.precioPorHora.toLocaleString("es-AR") + " por hora";
-  initQuickDates();
-  renderAvailToday();
-  const f = document.getElementById("sel-fecha");
-  if (!f.value) f.value = new Date().toISOString().split("T")[0];
+/* ── Info sidebar precio ── */
+function updatePrecioSidebar() {
+  const ef = document.getElementById("bk-precio-efectivo");
+  const tr = document.getElementById("bk-precio-transferencia");
+  if (ef) ef.textContent = "$" + CONFIG.precioEfectivo.toLocaleString("es-AR");
+  if (tr) tr.textContent = "$" + CONFIG.precioTransferencia.toLocaleString("es-AR");
 }
 
+/* ── Init página reservar ── */
+function initBookingPage() {
+  const closedBanner = document.getElementById("bk-closed-banner");
+  const bkLayout     = document.querySelector(".bk-layout");
+  if (!CONFIG.clubAbierto) {
+    if (closedBanner) {
+      closedBanner.querySelector(".bk-closed-msg").textContent = CONFIG.mensajeCierre;
+      closedBanner.style.display = "flex";
+    }
+    if (bkLayout) bkLayout.style.display = "none";
+    return;
+  }
+  if (closedBanner) closedBanner.style.display = "none";
+  if (bkLayout) bkLayout.style.display = "flex";
+
+  updatePrecioSidebar();
+  initQuickDates();
+  renderAvailToday();
+
+  const f = document.getElementById("sel-fecha");
+  if (!f.value) {
+    f.value = new Date().toISOString().split("T")[0];
+    // Activar botón "Hoy" por defecto
+    const hoyBtn = document.querySelector(".bk-quick-btn");
+    if (hoyBtn) hoyBtn.classList.add("active");
+  }
+}
+
+/* ── Actualizar slots ── */
 function updateSlots() {
-  const canchaId = document.getElementById("sel-cancha").value;
+  const root     = document.getElementById("bk-form-root");
+  const canchaId = root ? parseInt(root.dataset.cancha) : 0;
   const fecha    = document.getElementById("sel-fecha").value;
   selectedSlot   = null;
 
-  document.getElementById("confirm-box").style.display = "none";
-  document.getElementById("book-btn").style.display    = "none";
-  document.getElementById("success-msg").style.display = "none";
+  document.getElementById("confirm-box").style.display  = "none";
+  document.getElementById("book-btn").style.display     = "none";
+  document.getElementById("success-msg").style.display  = "none";
 
   if (!canchaId || !fecha) {
     document.getElementById("slots-section").style.display = "none";
+    checkSteps();
     return;
   }
 
   document.getElementById("slots-section").style.display = "block";
 
-  const cname = CONFIG.canchas.find(c => c.id === parseInt(canchaId))?.nombre || "";
+  const cname = CONFIG.canchas.find(c => c.id === canchaId)?.nombre || "";
   const taken = bookings
     .filter(b => b.cancha === cname && b.fecha === fecha && b.estado !== "cancelled")
     .map(b => b.hora);
@@ -116,7 +136,6 @@ function updateSlots() {
   const now     = new Date();
   const isToday = fecha === now.toISOString().split("T")[0];
   const curH    = now.getHours();
-
   const allHours = getHours();
   const available = allHours.filter(h => !taken.includes(h) && !(isToday && parseInt(h) <= curH));
 
@@ -125,99 +144,97 @@ function updateSlots() {
 
   const grid = document.getElementById("slots-grid");
   grid.innerHTML = allHours.map(h => {
-    const hNum    = parseInt(h);
-    const isTaken = taken.includes(h);
-    const isPast  = isToday && hNum <= curH;
+    const hNum      = parseInt(h);
+    const isTaken   = taken.includes(h);
+    const isPast    = isToday && hNum <= curH;
     const isMorning = hNum < 12;
-    const isAfternoon = hNum >= 12 && hNum < 18;
-    const isNight = hNum >= 18;
-    const periodIcon = isMorning ? "🌅" : isAfternoon ? "☀️" : "🌙";
+    const isNight   = hNum >= 18;
+    const icon      = isMorning ? "🌅" : isNight ? "🌙" : "☀️";
 
-    if (isTaken) {
-      return `<div class="bk-slot taken" title="${h} — Ocupado">
-        <span class="bk-slot-time">${h}</span>
-        <span class="bk-slot-icon">✗</span>
-      </div>`;
-    }
-    if (isPast) {
-      return `<div class="bk-slot past" title="${h} — Pasado">
-        <span class="bk-slot-time">${h}</span>
-        <span class="bk-slot-icon">—</span>
-      </div>`;
-    }
-    return `<div class="bk-slot" onclick="selectSlot('${h}', this)" title="${h} — Disponible">
-      <span class="bk-slot-period">${periodIcon}</span>
-      <span class="bk-slot-time">${h}</span>
-    </div>`;
+    if (isTaken) return `<div class="bk-slot taken"><span class="bk-slot-period">${icon}</span><span class="bk-slot-time">${h}</span><span class="bk-slot-status">ocupado</span></div>`;
+    if (isPast)  return `<div class="bk-slot past"><span class="bk-slot-period">${icon}</span><span class="bk-slot-time">${h}</span><span class="bk-slot-status">pasado</span></div>`;
+    return `<div class="bk-slot free" onclick="selectSlot('${h}', this)"><span class="bk-slot-period">${icon}</span><span class="bk-slot-time">${h}</span><span class="bk-slot-status">libre</span></div>`;
   }).join("");
 
-  checkForm();
+  checkSteps();
 }
 
+/* ── Seleccionar horario ── */
 function selectSlot(h, el) {
-  document.querySelectorAll(".bk-slot").forEach(s => s.classList.remove("selected"));
+  document.querySelectorAll(".bk-slot.free, .bk-slot.selected").forEach(s => {
+    s.classList.remove("selected");
+    s.classList.add("free");
+    s.querySelector(".bk-slot-status").textContent = "libre";
+  });
+  el.classList.remove("free");
   el.classList.add("selected");
+  el.querySelector(".bk-slot-status").textContent = "elegido";
   selectedSlot = h;
 
-  const canchaId = document.getElementById("sel-cancha").value;
+  const root     = document.getElementById("bk-form-root");
+  const canchaId = parseInt(root.dataset.cancha);
   const fecha    = document.getElementById("sel-fecha").value;
-  const cancha   = CONFIG.canchas.find(c => c.id === parseInt(canchaId));
+  const cancha   = CONFIG.canchas.find(c => c.id === canchaId);
 
   const fechaLabel = new Date(fecha + "T12:00").toLocaleDateString("es-AR", { weekday: "long", day: "numeric", month: "long" });
-  const horaFin = (parseInt(h) + 1).toString().padStart(2, "0") + ":00";
+  const horaFin    = (parseInt(h) + 1).toString().padStart(2, "0") + ":00";
 
-  document.getElementById("c-cancha").textContent  = cancha ? cancha.nombre + " (" + cancha.subtitulo + ")" : "—";
-  document.getElementById("c-fecha").textContent   = fechaLabel;
-  document.getElementById("c-hora").textContent    = h + " – " + horaFin;
-  document.getElementById("c-nombre").textContent  = document.getElementById("inp-nombre").value || "—";
-  document.getElementById("c-precio").textContent  = "$" + CONFIG.precioPorHora.toLocaleString("es-AR");
+  document.getElementById("c-cancha").textContent = cancha ? cancha.nombre + " (" + cancha.subtitulo + ")" : "—";
+  document.getElementById("c-fecha").textContent  = fechaLabel;
+  document.getElementById("c-hora").textContent   = h + " – " + horaFin;
+  document.getElementById("c-nombre").textContent = document.getElementById("inp-nombre").value || "—";
+
+  // Mostrar ambos precios en el resumen
+  document.getElementById("c-precio-ef").textContent = "$" + CONFIG.precioEfectivo.toLocaleString("es-AR");
+  document.getElementById("c-precio-tr").textContent = "$" + CONFIG.precioTransferencia.toLocaleString("es-AR");
+
   document.getElementById("confirm-box").style.display = "block";
+  // Scroll suave al resumen en mobile
+  document.getElementById("confirm-box").scrollIntoView({ behavior: "smooth", block: "nearest" });
 
   checkForm();
+  checkSteps();
 }
 
+/* ── Validar form ── */
 function checkForm() {
-  const ok =
-    document.getElementById("sel-cancha").value &&
-    document.getElementById("sel-fecha").value &&
-    document.getElementById("inp-nombre").value.trim() &&
-    document.getElementById("inp-tel").value.trim() &&
-    selectedSlot;
-
-  document.getElementById("book-btn").style.display = ok ? "flex" : "none";
-
-  // Update confirm-box nombre in realtime
-  if (selectedSlot) {
-    const nombre = document.getElementById("inp-nombre").value;
-    document.getElementById("c-nombre").textContent = nombre || "—";
-  }
-
-  // Steps progress
-  const hasCancha = !!document.getElementById("sel-cancha").value;
-  const hasFecha  = !!document.getElementById("sel-fecha").value;
-  const s2 = document.getElementById("step2");
-  const s3 = document.getElementById("step3");
-  if (s2) s2.classList.toggle("active", !!(hasCancha && hasFecha));
-  if (s3) s3.classList.toggle("active", !!ok);
-}
-
-function confirmarReserva() {
-  const canchaId = document.getElementById("sel-cancha").value;
+  const root     = document.getElementById("bk-form-root");
+  const canchaId = root ? root.dataset.cancha : "";
   const fecha    = document.getElementById("sel-fecha").value;
   const nombre   = document.getElementById("inp-nombre").value.trim();
   const tel      = document.getElementById("inp-tel").value.trim();
-  const cancha   = CONFIG.canchas.find(c => c.id === parseInt(canchaId));
+  const ok       = canchaId && fecha && nombre && tel && selectedSlot;
 
-  bookings.push({
-    id: nextId++, nombre, tel,
-    cancha: cancha.nombre, fecha,
-    hora: selectedSlot,
-    estado: "confirmed",
-  });
+  document.getElementById("book-btn").style.display = ok ? "flex" : "none";
 
-  // Animate success
-  document.getElementById("confirm-box").style.display = "none";
-  document.getElementById("book-btn").style.display    = "none";
+  if (selectedSlot && nombre) {
+    document.getElementById("c-nombre").textContent = nombre;
+  }
+}
+
+function checkSteps() {
+  const root     = document.getElementById("bk-form-root");
+  const canchaId = root ? root.dataset.cancha : "";
+  const fecha    = document.getElementById("sel-fecha").value;
+  const s2 = document.getElementById("step2");
+  const s3 = document.getElementById("step3");
+  if (s2) s2.classList.toggle("active", !!(canchaId && fecha));
+  if (s3) s3.classList.toggle("active", !!selectedSlot);
+}
+
+/* ── Confirmar reserva ── */
+function confirmarReserva() {
+  const root     = document.getElementById("bk-form-root");
+  const canchaId = parseInt(root.dataset.cancha);
+  const fecha    = document.getElementById("sel-fecha").value;
+  const nombre   = document.getElementById("inp-nombre").value.trim();
+  const tel      = document.getElementById("inp-tel").value.trim();
+  const cancha   = CONFIG.canchas.find(c => c.id === canchaId);
+
+  bookings.push({ id: nextId++, nombre, tel, cancha: cancha.nombre, fecha, hora: selectedSlot, estado: "confirmed" });
+
+  document.getElementById("confirm-box").style.display  = "none";
+  document.getElementById("book-btn").style.display     = "none";
   document.getElementById("slots-section").style.display = "none";
 
   const fechaLabel = new Date(fecha + "T12:00").toLocaleDateString("es-AR", { weekday: "long", day: "numeric", month: "long" });
@@ -225,43 +242,41 @@ function confirmarReserva() {
     cancha.nombre + " · " + fechaLabel + " · " + selectedSlot + " hs — ¡Te esperamos!";
   document.getElementById("success-msg").style.display = "block";
 
-  // Armar mensaje de WhatsApp
+  // Armar link WhatsApp
   const horaFin = (parseInt(selectedSlot) + 1).toString().padStart(2, "0") + ":00";
-  const msg = encodeURIComponent(
+  const msgWpp  = encodeURIComponent(
     `Hola! Quiero confirmar mi reserva en La Pancha Pádel 🎾\n\n` +
     `👤 Nombre: ${nombre}\n` +
     `📞 Tel: ${tel}\n` +
     `🏟️ Cancha: ${cancha.nombre}\n` +
     `📅 Fecha: ${fechaLabel}\n` +
     `⏰ Horario: ${selectedSlot} – ${horaFin} hs\n` +
-    `💰 Total: $${CONFIG.precioPorHora.toLocaleString("es-AR")}\n\n` +
+    `💵 Efectivo: $${CONFIG.precioEfectivo.toLocaleString("es-AR")} | 📲 Transferencia: $${CONFIG.precioTransferencia.toLocaleString("es-AR")}\n\n` +
     `¡Gracias!`
   );
-  const wppUrl = `https://wa.me/${CONFIG.whatsappNumero}?text=${msg}`;
-
-  // Mostrar botón WhatsApp en el success
   const wppBtn = document.getElementById("success-wpp-btn");
-  if (wppBtn) {
-    wppBtn.href = wppUrl;
-    wppBtn.style.display = "flex";
-  }
+  if (wppBtn) { wppBtn.href = `https://wa.me/${CONFIG.whatsappNumero}?text=${msgWpp}`; wppBtn.style.display = "flex"; }
 
+  document.getElementById("success-msg").scrollIntoView({ behavior: "smooth" });
   renderAvailToday();
 }
 
+/* ── Reset ── */
 function resetBooking() {
   document.querySelectorAll(".bk-court-card").forEach(c => c.classList.remove("selected"));
-  document.getElementById("sel-cancha").value = "";
-  document.getElementById("sel-fecha").value  = "";
+  const root = document.getElementById("bk-form-root");
+  if (root) delete root.dataset.cancha;
+  document.getElementById("sel-fecha").value  = new Date().toISOString().split("T")[0];
   document.getElementById("inp-nombre").value = "";
   document.getElementById("inp-tel").value    = "";
-  document.querySelectorAll(".bk-quick-btn").forEach(b => b.classList.remove("active"));
+  document.querySelectorAll(".bk-quick-btn").forEach((b, i) => { b.classList.toggle("active", i === 0); });
   selectedSlot = null;
-
   ["slots-section","confirm-box","book-btn","success-msg"].forEach(id => {
-    document.getElementById(id).style.display = "none";
+    const el = document.getElementById(id);
+    if (el) el.style.display = "none";
   });
-
+  const wppBtn = document.getElementById("success-wpp-btn");
+  if (wppBtn) wppBtn.style.display = "none";
   document.querySelectorAll(".bk-step").forEach(s => s.classList.remove("active", "done"));
   const s1 = document.getElementById("step1");
   if (s1) s1.classList.add("active");

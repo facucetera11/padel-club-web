@@ -238,7 +238,7 @@
     <div class="bk-layout">
 
       <!-- Panel izquierdo: formulario -->
-      <div class="bk-form-panel">
+      <div class="bk-form-panel" id="bk-form-root" data-cancha="">
 
         <!-- Progress steps -->
         <div class="bk-steps">
@@ -303,8 +303,6 @@
                   <div class="bk-court-sub">Sintetico · Blindex</div>
                 </div>
               </div>
-              <!-- hidden select for compatibility -->
-              <select class="form-select" id="sel-cancha" onchange="updateSlots()" style="display:none"></select>
             </div>
             <div class="form-group">
               <label class="form-label">Fecha</label>
@@ -319,11 +317,12 @@
 
         <!-- Sección C: Slots -->
         <div class="bk-section-block" id="slots-section" style="display:none">
-          <div class="bk-block-title"><i class="ti ti-clock-hour-4"></i> Horario disponible <span class="bk-avail-count" id="bk-avail-count"></span></div>
+          <div class="bk-block-title"><i class="ti ti-clock-hour-4"></i> Elegí tu horario <span class="bk-avail-count" id="bk-avail-count"></span></div>
           <div class="bk-slots-legend">
-            <span class="bk-leg free">Disponible</span>
-            <span class="bk-leg taken">Ocupado</span>
-            <span class="bk-leg selected">Seleccionado</span>
+            <span class="bk-leg free">libre</span>
+            <span class="bk-leg taken">ocupado</span>
+            <span class="bk-leg selected">elegido</span>
+            <span class="bk-leg past">pasado</span>
           </div>
           <div class="bk-time-grid" id="slots-grid"></div>
         </div>
@@ -342,8 +341,8 @@
           <h3>¡Turno confirmado!</h3>
           <p id="success-detail"></p>
           <div class="bk-success-actions">
-            <a id="success-wpp-btn" href="#" target="_blank" rel="noopener" class="btn-primary" style="display:none;text-decoration:none;align-items:center;gap:8px">
-              <i class="ti ti-brand-whatsapp" style="color:#25D366"></i> Confirmar por WhatsApp
+            <a id="success-wpp-btn" href="#" target="_blank" rel="noopener" class="btn-wpp" style="display:none">
+              <i class="ti ti-brand-whatsapp"></i> Confirmar por WhatsApp
             </a>
             <button class="btn-primary" onclick="resetBooking()">
               <i class="ti ti-plus"></i> Nueva reserva
@@ -380,13 +379,21 @@
               <span class="bk-sr-value" id="c-nombre">—</span>
             </div>
           </div>
-          <div class="bk-summary-total">
-            <span>Total a pagar</span>
-            <span class="bk-total-price" id="c-precio">—</span>
+          <!-- Precios duales -->
+          <div class="bk-dual-prices">
+            <div class="bk-price-option">
+              <span class="bk-price-label"><i class="ti ti-cash"></i> Efectivo</span>
+              <span class="bk-price-value lime" id="c-precio-ef">—</span>
+            </div>
+            <div class="bk-price-divider"></div>
+            <div class="bk-price-option">
+              <span class="bk-price-label"><i class="ti ti-brand-mercado-pago"></i> Transferencia</span>
+              <span class="bk-price-value" id="c-precio-tr">—</span>
+            </div>
           </div>
           <div class="bk-summary-note">
             <i class="ti ti-info-circle"></i>
-            Pago en el complejo al llegar
+            Pago al llegar al club
           </div>
         </div>
 
@@ -403,8 +410,12 @@
               <span>Lun–Dom · 07:00 a 23:00</span>
             </div>
             <div class="bk-info-row">
-              <i class="ti ti-currency-dollar"></i>
-              <span id="bk-precio-hora">$8.000 por hora</span>
+              <i class="ti ti-cash"></i>
+              <span>Efectivo: <strong id="bk-precio-efectivo">—</strong> / hora</span>
+            </div>
+            <div class="bk-info-row">
+              <i class="ti ti-brand-mercado-pago"></i>
+              <span>Transferencia: <strong id="bk-precio-transferencia">—</strong> / hora</span>
             </div>
             <div class="bk-info-row">
               <i class="ti ti-tennis"></i>
@@ -769,6 +780,28 @@
             <div class="input-wrap">
               <i class="ti ti-brand-whatsapp input-icon" style="color:#25D366"></i>
               <input type="text" class="form-input input-with-icon" id="cfg-wpp" placeholder="5492227000000" />
+            </div>
+          </div>
+        </div>
+
+        <!-- Precios -->
+        <div class="cfg-block" style="margin-top:24px">
+          <div class="cfg-block-title"><i class="ti ti-cash"></i> Precios por hora</div>
+          <p style="color:var(--muted);font-size:13px;margin:0 0 16px">Los dos precios se muestran al cliente en el resumen de la reserva y en el mensaje de WhatsApp.</p>
+          <div class="admin-form-grid" style="grid-template-columns:1fr 1fr">
+            <div class="form-group">
+              <label class="form-label"><i class="ti ti-cash" style="color:var(--lime)"></i> Precio efectivo ($)</label>
+              <div class="input-wrap">
+                <i class="ti ti-currency-dollar input-icon"></i>
+                <input type="number" class="form-input input-with-icon" id="cfg-precio-ef" placeholder="8000" min="0" step="100" />
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="form-label"><i class="ti ti-brand-mercado-pago" style="color:#00B1EA"></i> Precio transferencia ($)</label>
+              <div class="input-wrap">
+                <i class="ti ti-currency-dollar input-icon"></i>
+                <input type="number" class="form-input input-with-icon" id="cfg-precio-tr" placeholder="7500" min="0" step="100" />
+              </div>
             </div>
           </div>
         </div>

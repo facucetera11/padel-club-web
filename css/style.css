@@ -2407,3 +2407,116 @@ tr:hover td { background: rgba(255,255,255,0.02); }
 .cfg-toast-show   { opacity: 1; }
 .cfg-toast-ok     { background: rgba(212,245,60,0.15); color: var(--lime); border: 1px solid var(--lime); }
 .cfg-toast-error  { background: rgba(239,68,68,0.15);  color: #fca5a5;    border: 1px solid #ef4444; }
+
+/* ── Slots mejorados ── */
+.bk-slot {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  padding: 10px 6px 8px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  cursor: pointer;
+  transition: all 0.15s ease;
+  min-width: 64px;
+}
+.bk-slot-status {
+  font-size: 9px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  color: var(--muted2);
+}
+.bk-slot.free { background: rgba(255,255,255,0.04); border-color: var(--border2); }
+.bk-slot.free:hover { background: rgba(212,245,60,0.1); border-color: var(--lime); transform: translateY(-2px); }
+.bk-slot.free:hover .bk-slot-status { color: var(--lime); }
+.bk-slot.selected { background: var(--lime); border-color: var(--lime); }
+.bk-slot.selected .bk-slot-time { color: #0B1F3A; font-weight: 700; }
+.bk-slot.selected .bk-slot-status { color: #0B1F3A; font-weight: 600; }
+.bk-slot.selected .bk-slot-period { filter: grayscale(1); }
+.bk-slot.taken { background: rgba(239,68,68,0.08); border-color: rgba(239,68,68,0.2); cursor: not-allowed; opacity: 0.6; }
+.bk-slot.taken .bk-slot-status { color: #fca5a5; }
+.bk-slot.past  { background: rgba(255,255,255,0.02); border-color: rgba(255,255,255,0.04); cursor: not-allowed; opacity: 0.35; }
+
+/* ── Legend mejorada ── */
+.bk-slots-legend { display: flex; gap: 14px; flex-wrap: wrap; margin-bottom: 12px; }
+.bk-leg {
+  font-size: 11px;
+  color: var(--muted);
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.bk-leg::before {
+  content: "";
+  display: inline-block;
+  width: 10px; height: 10px;
+  border-radius: 3px;
+  border: 1px solid;
+}
+.bk-leg.free::before     { background: rgba(255,255,255,0.04); border-color: var(--border2); }
+.bk-leg.taken::before    { background: rgba(239,68,68,0.15); border-color: rgba(239,68,68,0.3); }
+.bk-leg.selected::before { background: var(--lime); border-color: var(--lime); }
+.bk-leg.past::before     { background: rgba(255,255,255,0.02); border-color: rgba(255,255,255,0.06); }
+
+/* ── Precios duales en resumen ── */
+.bk-dual-prices {
+  display: flex;
+  align-items: stretch;
+  gap: 0;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--border2);
+  border-radius: 12px;
+  overflow: hidden;
+  margin: 16px 0 12px;
+}
+.bk-price-option {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 14px 10px;
+}
+.bk-price-divider {
+  width: 1px;
+  background: var(--border2);
+}
+.bk-price-label {
+  font-size: 11px;
+  color: var(--muted);
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.bk-price-value {
+  font-family: var(--font-title);
+  font-size: 22px;
+  color: var(--text);
+  letter-spacing: 0.5px;
+}
+.bk-price-value.lime { color: var(--lime); }
+
+/* ── Botón WhatsApp ── */
+.btn-wpp {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: #25D366;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  padding: 14px 24px;
+  font-family: var(--font-title);
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background 0.2s, transform 0.15s;
+}
+.btn-wpp:hover { background: #1ebe5d; transform: translateY(-1px); }

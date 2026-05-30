@@ -670,6 +670,10 @@ function renderConfigTab() {
   if (el) el.value = CONFIG.whatsappNumero;
   const msgEl = document.getElementById("cfg-msg-cierre");
   if (msgEl) msgEl.value = CONFIG.mensajeCierre;
+  const efEl = document.getElementById("cfg-precio-ef");
+  if (efEl) efEl.value = CONFIG.precioEfectivo;
+  const trEl = document.getElementById("cfg-precio-tr");
+  if (trEl) trEl.value = CONFIG.precioTransferencia;
   updateClubStatusUI();
 }
 
@@ -703,11 +707,26 @@ function cfgSetClubStatus(abierto) {
 }
 
 function cfgGuardar() {
-  const wpp = document.getElementById("cfg-wpp").value.trim().replace(/\D/g, "");
-  const msg = document.getElementById("cfg-msg-cierre").value.trim();
-  if (!wpp) { showCfgToast("⚠ Ingresá un número válido", true); return; }
-  CONFIG.whatsappNumero = wpp;
+  const wpp   = document.getElementById("cfg-wpp").value.trim().replace(/\D/g, "");
+  const msg   = document.getElementById("cfg-msg-cierre").value.trim();
+  const ef    = parseInt(document.getElementById("cfg-precio-ef").value);
+  const tr    = parseInt(document.getElementById("cfg-precio-tr").value);
+
+  if (!wpp) { showCfgToast("⚠ Ingresá un número de WhatsApp válido", true); return; }
+  if (isNaN(ef) || ef < 0) { showCfgToast("⚠ Ingresá un precio de efectivo válido", true); return; }
+  if (isNaN(tr) || tr < 0) { showCfgToast("⚠ Ingresá un precio de transferencia válido", true); return; }
+
+  CONFIG.whatsappNumero      = wpp;
   if (msg) CONFIG.mensajeCierre = msg;
+  CONFIG.precioEfectivo      = ef;
+  CONFIG.precioTransferencia = tr;
+
+  // Actualizar sidebar de reservas si está visible
+  const efEl = document.getElementById("bk-precio-efectivo");
+  const trEl = document.getElementById("bk-precio-transferencia");
+  if (efEl) efEl.textContent = "$" + ef.toLocaleString("es-AR");
+  if (trEl) trEl.textContent = "$" + tr.toLocaleString("es-AR");
+
   showCfgToast("✅ Configuración guardada");
 }
 

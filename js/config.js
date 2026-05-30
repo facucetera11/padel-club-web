@@ -9,8 +9,11 @@ const CONFIG = {
   tagline:   "General Las Heras",
   localidad: "General Las Heras, Buenos Aires",
 
-  // --- Precio y horarios ---
-  precioPorHora:   8000,
+  // --- Precios ---
+  precioEfectivo:      8000,   // precio pagando en el club (efectivo)
+  precioTransferencia: 7500,   // precio pagando por transferencia (puede ser menor o mayor)
+
+  // --- Horarios ---
   horarioApertura: 7,
   horarioCierre:   23,
 
@@ -21,7 +24,6 @@ const CONFIG = {
       nombre:    "Cancha 1",
       subtitulo: "Sintetico · Blindex",
       descripcion: "Al aire libre",
-
       caracteristicas: [
         "Pasto sintético",
         "Paredes de blindex",
@@ -43,14 +45,12 @@ const CONFIG = {
     }
   ],
 
-  // --- WhatsApp para confirmación de reservas ---
-  // Formato internacional sin + ni espacios: 549 + código de área + número
+  // --- WhatsApp ---
   whatsappNumero: "5492227000000",
 
   // --- Estado del club ---
-  // true = abierto (reservas habilitadas), false = cerrado (ej: lluvia)
-  clubAbierto: true,
-  mensajeCierre: "⛈️ Por lluvia, el club está temporalmente cerrado. Seguinos en redes para novedades.",
+  clubAbierto:    true,
+  mensajeCierre:  "⛈️ Por lluvia, el club está temporalmente cerrado. Seguinos en redes para novedades.",
 
   // --- Admin ---
   adminUsuario: "admin",
