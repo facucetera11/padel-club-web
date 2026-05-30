@@ -2523,23 +2523,26 @@ tr:hover td { background: rgba(255,255,255,0.02); }
 
 /* ── Logo imagen ── */
 .logo-img {
-  height: 44px;
+  height: 52px;
   width: auto;
   cursor: pointer;
   object-fit: contain;
-  /* Logo es blanco sobre negro — invertir para que se vea sobre fondo oscuro */
-  filter: invert(1);
+  /* El logo es blanco sobre negro — mix-blend-mode screen elimina el fondo negro */
+  mix-blend-mode: screen;
   transition: opacity 0.2s;
 }
-.logo-img:hover { opacity: 0.8; }
+.logo-img:hover { opacity: 0.85; }
 
-/* En footer queda igual */
-footer .logo-img { height: 36px; }
+/* En footer */
+footer .logo-img {
+  height: 48px;
+  mix-blend-mode: screen;
+}
 
 /* Login */
 .login-logo-img {
-  height: 80px;
-  margin: 0 auto 8px;
+  height: 100px;
+  margin: 0 auto 16px;
   display: block;
-  filter: invert(1);
+  mix-blend-mode: screen;
 }
