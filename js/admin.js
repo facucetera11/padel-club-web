@@ -31,7 +31,7 @@ function adminLogin() {
 function adminLogout() { showPage("home"); }
 
 /* ── Tabs del panel ── */
-const ADMIN_TABS = ["overview", "reservas", "agenda", "nueva", "buscar", "estadisticas"];
+const ADMIN_TABS = ["overview", "reservas", "agenda", "nueva", "buscar", "estadisticas", "config"];
 
 function showAdminTab(tab) {
   ADMIN_TABS.forEach(t => {
@@ -48,6 +48,7 @@ function showAdminTab(tab) {
   if (tab === "nueva")        initNuevaReserva();
   if (tab === "buscar")       setTimeout(() => document.getElementById("search-input")?.focus(), 50);
   if (tab === "estadisticas") renderEstadisticas();
+  if (tab === "config")       renderConfigTab();
 }
 
 /* ── Métricas ── */
@@ -661,6 +662,61 @@ function renderStatsSummary() {
       <span class="stats-sum-value" style="color:${it.color || "var(--text)"}">${it.value}</span>
     </div>
   `).join("");
+}
+
+/* ── Tab Configuración ── */
+function renderConfigTab() {
+  const el = document.getElementById("cfg-wpp");
+  if (el) el.value = CONFIG.whatsappNumero;
+  const msgEl = document.getElementById("cfg-msg-cierre");
+  if (msgEl) msgEl.value = CONFIG.mensajeCierre;
+  updateClubStatusUI();
+}
+
+function updateClubStatusUI() {
+  const abierto = CONFIG.clubAbierto;
+  const badge   = document.getElementById("cfg-status-badge");
+  const btnAbrir = document.getElementById("cfg-btn-abrir");
+  const btnCerrar = document.getElementById("cfg-btn-cerrar");
+  if (badge) {
+    badge.textContent = abierto ? "🟢 ABIERTO" : "🔴 CERRADO";
+    badge.className   = "cfg-status-badge " + (abierto ? "cfg-open" : "cfg-closed");
+  }
+  if (btnAbrir)  btnAbrir.disabled  = abierto;
+  if (btnCerrar) btnCerrar.disabled = !abierto;
+}
+
+function cfgSetClubStatus(abierto) {
+  CONFIG.clubAbierto = abierto;
+  updateClubStatusUI();
+  // Actualizar banner en página reservar si está visible
+  const closedBanner = document.getElementById("bk-closed-banner");
+  const bkLayout = document.querySelector(".bk-layout");
+  if (!abierto) {
+    if (closedBanner) { closedBanner.querySelector(".bk-closed-msg").textContent = CONFIG.mensajeCierre; closedBanner.style.display = "flex"; }
+    if (bkLayout) bkLayout.style.display = "none";
+  } else {
+    if (closedBanner) closedBanner.style.display = "none";
+    if (bkLayout) bkLayout.style.display = "flex";
+  }
+  showCfgToast(abierto ? "✅ Club marcado como ABIERTO" : "🔴 Club marcado como CERRADO");
+}
+
+function cfgGuardar() {
+  const wpp = document.getElementById("cfg-wpp").value.trim().replace(/\D/g, "");
+  const msg = document.getElementById("cfg-msg-cierre").value.trim();
+  if (!wpp) { showCfgToast("⚠ Ingresá un número válido", true); return; }
+  CONFIG.whatsappNumero = wpp;
+  if (msg) CONFIG.mensajeCierre = msg;
+  showCfgToast("✅ Configuración guardada");
+}
+
+function showCfgToast(text, isError = false) {
+  const t = document.getElementById("cfg-toast");
+  if (!t) return;
+  t.textContent = text;
+  t.className = "cfg-toast " + (isError ? "cfg-toast-error" : "cfg-toast-ok") + " cfg-toast-show";
+  setTimeout(() => t.classList.remove("cfg-toast-show"), 3000);
 }
 
 /* ── Init ── */

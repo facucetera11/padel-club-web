@@ -2,14 +2,8 @@
 //  bookings.js — Lógica de reservas (mejorado)
 // ============================================================
 
-let bookings = [
-  { id: 1, nombre: "María González", tel: "2227-000001", cancha: "Cancha 1", fecha: getFutureDate(0), hora: "09:00", estado: "confirmed" },
-  { id: 2, nombre: "Carlos Ruiz",    tel: "2227-000002", cancha: "Cancha 2", fecha: getFutureDate(0), hora: "10:00", estado: "confirmed" },
-  { id: 3, nombre: "Ana Pérez",      tel: "2227-000003", cancha: "Cancha 1", fecha: getFutureDate(0), hora: "19:00", estado: "pending"   },
-  { id: 4, nombre: "Javier López",   tel: "2227-000004", cancha: "Cancha 2", fecha: getFutureDate(1), hora: "18:00", estado: "confirmed" },
-  { id: 5, nombre: "Laura Sosa",     tel: "2227-000005", cancha: "Cancha 1", fecha: getFutureDate(2), hora: "20:00", estado: "confirmed" },
-];
-let nextId = 6;
+let bookings = [];
+let nextId = 1;
 let selectedSlot = null;
 
 function getHours() {
@@ -78,6 +72,18 @@ function renderAvailToday() {
 
 /* ── precio por hora en sidebar ── */
 function initBookingPage() {
+  // Verificar si el club está cerrado
+  const closedBanner = document.getElementById("bk-closed-banner");
+  const bkLayout = document.querySelector(".bk-layout");
+  if (!CONFIG.clubAbierto) {
+    if (closedBanner) closedBanner.style.display = "flex";
+    if (bkLayout) bkLayout.style.display = "none";
+    return;
+  } else {
+    if (closedBanner) closedBanner.style.display = "none";
+    if (bkLayout) bkLayout.style.display = "flex";
+  }
+
   const el = document.getElementById("bk-precio-hora");
   if (el) el.textContent = "$" + CONFIG.precioPorHora.toLocaleString("es-AR") + " por hora";
   initQuickDates();
@@ -218,6 +224,27 @@ function confirmarReserva() {
   document.getElementById("success-detail").textContent =
     cancha.nombre + " · " + fechaLabel + " · " + selectedSlot + " hs — ¡Te esperamos!";
   document.getElementById("success-msg").style.display = "block";
+
+  // Armar mensaje de WhatsApp
+  const horaFin = (parseInt(selectedSlot) + 1).toString().padStart(2, "0") + ":00";
+  const msg = encodeURIComponent(
+    `Hola! Quiero confirmar mi reserva en La Pancha Pádel 🎾\n\n` +
+    `👤 Nombre: ${nombre}\n` +
+    `📞 Tel: ${tel}\n` +
+    `🏟️ Cancha: ${cancha.nombre}\n` +
+    `📅 Fecha: ${fechaLabel}\n` +
+    `⏰ Horario: ${selectedSlot} – ${horaFin} hs\n` +
+    `💰 Total: $${CONFIG.precioPorHora.toLocaleString("es-AR")}\n\n` +
+    `¡Gracias!`
+  );
+  const wppUrl = `https://wa.me/${CONFIG.whatsappNumero}?text=${msg}`;
+
+  // Mostrar botón WhatsApp en el success
+  const wppBtn = document.getElementById("success-wpp-btn");
+  if (wppBtn) {
+    wppBtn.href = wppUrl;
+    wppBtn.style.display = "flex";
+  }
 
   renderAvailToday();
 }

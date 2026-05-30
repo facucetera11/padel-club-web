@@ -43,6 +43,15 @@ const CONFIG = {
     }
   ],
 
+  // --- WhatsApp para confirmación de reservas ---
+  // Formato internacional sin + ni espacios: 549 + código de área + número
+  whatsappNumero: "5492227000000",
+
+  // --- Estado del club ---
+  // true = abierto (reservas habilitadas), false = cerrado (ej: lluvia)
+  clubAbierto: true,
+  mensajeCierre: "⛈️ Por lluvia, el club está temporalmente cerrado. Seguinos en redes para novedades.",
+
   // --- Admin ---
   adminUsuario: "admin",
   adminPassword: "padel2025",

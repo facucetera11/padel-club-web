@@ -228,6 +228,13 @@
       </div>
     </div>
 
+    <!-- Banner club cerrado -->
+    <div id="bk-closed-banner" style="display:none;align-items:center;justify-content:center;gap:16px;background:linear-gradient(135deg,#1a0a0a,#2d1010);border:1px solid #7f1d1d;border-radius:16px;padding:32px 24px;margin:32px 24px;text-align:center;flex-direction:column">
+      <span style="font-size:48px">⛈️</span>
+      <div class="bk-closed-msg" style="color:#fca5a5;font-size:18px;font-weight:600;font-family:'Oswald',sans-serif">Por lluvia, el club está temporalmente cerrado.</div>
+      <p style="color:var(--muted);font-size:14px;margin:0">Seguinos en redes para novedades. ¡Gracias por la comprensión!</p>
+    </div>
+
     <div class="bk-layout">
 
       <!-- Panel izquierdo: formulario -->
@@ -335,6 +342,9 @@
           <h3>¡Turno confirmado!</h3>
           <p id="success-detail"></p>
           <div class="bk-success-actions">
+            <a id="success-wpp-btn" href="#" target="_blank" rel="noopener" class="btn-primary" style="display:none;text-decoration:none;align-items:center;gap:8px">
+              <i class="ti ti-brand-whatsapp" style="color:#25D366"></i> Confirmar por WhatsApp
+            </a>
             <button class="btn-primary" onclick="resetBooking()">
               <i class="ti ti-plus"></i> Nueva reserva
             </button>
@@ -479,6 +489,9 @@
       </button>
       <button class="anav-btn" onclick="showAdminTab('estadisticas')">
         <i class="ti ti-chart-bar"></i> estadísticas
+      </button>
+      <button class="anav-btn" onclick="showAdminTab('config')">
+        <i class="ti ti-settings"></i> configuración
       </button>
     </div>
 
@@ -720,6 +733,52 @@
           <div class="stats-card-title"><i class="ti ti-trending-up"></i> resumen general</div>
           <div class="stats-summary" id="stats-summary"></div>
         </div>
+      </div>
+    </div>
+
+    <!-- ===== Tab: Configuración ===== -->
+    <div id="admin-config" style="display:none">
+      <div class="admin-form-wrap" style="max-width:600px">
+        <div class="admin-form-title"><i class="ti ti-settings"></i> configuración del club</div>
+
+        <!-- Estado abierto/cerrado -->
+        <div class="cfg-block">
+          <div class="cfg-block-title"><i class="ti ti-door"></i> Estado del club</div>
+          <p style="color:var(--muted);font-size:13px;margin:0 0 16px">Cuando está cerrado, la página de reservas muestra un aviso y deshabilita los turnos.</p>
+          <div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap">
+            <span class="cfg-status-badge cfg-open" id="cfg-status-badge">🟢 ABIERTO</span>
+            <button class="btn-primary" id="cfg-btn-abrir" onclick="cfgSetClubStatus(true)" style="padding:10px 20px">
+              <i class="ti ti-lock-open"></i> Abrir club
+            </button>
+            <button class="del-btn" id="cfg-btn-cerrar" onclick="cfgSetClubStatus(false)" style="padding:10px 20px;font-size:13px">
+              <i class="ti ti-cloud-rain"></i> Cerrar por lluvia
+            </button>
+          </div>
+          <div class="form-group" style="margin-top:16px">
+            <label class="form-label">Mensaje de cierre (visible al público)</label>
+            <input type="text" class="form-input" id="cfg-msg-cierre" placeholder="⛈️ Por lluvia, el club está temporalmente cerrado..." />
+          </div>
+        </div>
+
+        <!-- WhatsApp -->
+        <div class="cfg-block" style="margin-top:24px">
+          <div class="cfg-block-title"><i class="ti ti-brand-whatsapp" style="color:#25D366"></i> Número de WhatsApp</div>
+          <p style="color:var(--muted);font-size:13px;margin:0 0 16px">Al finalizar una reserva, el cliente puede enviar la confirmación a este número. Formato internacional sin espacios ni +: ej. <strong style="color:var(--text)">5492227123456</strong></p>
+          <div class="form-group">
+            <label class="form-label">Número (solo dígitos)</label>
+            <div class="input-wrap">
+              <i class="ti ti-brand-whatsapp input-icon" style="color:#25D366"></i>
+              <input type="text" class="form-input input-with-icon" id="cfg-wpp" placeholder="5492227000000" />
+            </div>
+          </div>
+        </div>
+
+        <div class="admin-form-actions" style="margin-top:24px">
+          <button class="btn-primary" onclick="cfgGuardar()">
+            <i class="ti ti-device-floppy"></i> guardar cambios
+          </button>
+        </div>
+        <div class="cfg-toast" id="cfg-toast"></div>
       </div>
     </div>
 
