@@ -2521,28 +2521,51 @@ tr:hover td { background: rgba(255,255,255,0.02); }
 }
 .btn-wpp:hover { background: #1ebe5d; transform: translateY(-1px); }
 
+/* ── Bloque WA en pantalla de éxito ── */
+.bk-success-wpp-block {
+  margin-top: 20px;
+  background: rgba(37, 211, 102, 0.07);
+  border: 1px solid rgba(37, 211, 102, 0.25);
+  border-radius: 14px;
+  padding: 20px 24px;
+  text-align: left;
+}
+.bk-success-wpp-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: 'Oswald', sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.bk-success-wpp-desc {
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.6;
+  margin: 0 0 16px;
+}
+
 /* ── Logo imagen ── */
 .logo-img {
   height: 52px;
   width: auto;
   cursor: pointer;
   object-fit: contain;
-  border-radius: 10px;
-  background: rgba(255,255,255,0.08);
-  padding: 4px 8px;
-  transition: opacity 0.2s, background 0.2s;
+  /* Convierte el logo a blanco puro — funciona con cualquier fondo oscuro
+     y no se rompe con backdrop-filter como mix-blend-mode */
+  filter: brightness(0) invert(1);
+  transition: opacity 0.2s;
 }
-.logo-img:hover {
-  opacity: 0.85;
-  background: rgba(255,255,255,0.14);
-}
+.logo-img:hover { opacity: 0.85; }
 
 /* En footer */
 footer .logo-img {
   height: 48px;
-  background: rgba(255,255,255,0.06);
-  padding: 4px 8px;
-  border-radius: 10px;
+  filter: brightness(0) invert(1);
 }
 
 /* Login */
@@ -2550,7 +2573,5 @@ footer .logo-img {
   height: 100px;
   margin: 0 auto 16px;
   display: block;
-  background: rgba(255,255,255,0.06);
-  padding: 8px 16px;
-  border-radius: 14px;
+  filter: brightness(0) invert(1);
 }

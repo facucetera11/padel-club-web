@@ -272,21 +272,17 @@ function confirmarReserva() {
   );
   const wppUrl = `https://wa.me/${CONFIG.whatsappNumero}?text=${msgWpp}`;
 
-  // Mostrar éxito con estado "pendiente de confirmación WA"
   document.getElementById("success-detail").textContent =
-    cancha.nombre + " · " + fechaLabel + " · " + selectedSlot + " hs";
-  document.getElementById("success-msg").style.display = "block";
+    cancha.nombre + " · " + fechaLabel + " · " + selectedSlot + " – " + horaFin + " hs";
 
-  // Botón WA siempre visible y destacado como paso obligatorio
   const wppBtn = document.getElementById("success-wpp-btn");
   if (wppBtn) {
     wppBtn.href = wppUrl;
     wppBtn.style.display = "flex";
-    wppBtn.innerHTML = `<i class="ti ti-brand-whatsapp"></i> Confirmar por WhatsApp <span style="font-size:11px;opacity:0.8;margin-left:4px">(requerido)</span>`;
   }
 
-  // Abrir WhatsApp automáticamente
-  setTimeout(() => { window.open(wppUrl, "_blank", "noopener"); }, 400);
+  document.getElementById("success-msg").style.display = "block";
+  document.getElementById("success-msg").scrollIntoView({ behavior: "smooth" });
 
   document.getElementById("success-msg").scrollIntoView({ behavior: "smooth" });
   renderAvailToday();
