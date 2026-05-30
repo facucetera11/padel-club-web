@@ -1570,3 +1570,776 @@ tr:hover td { background: rgba(255,255,255,0.02); }
 @media (max-width: 480px) {
   .admin-grid   { grid-template-columns: 1fr; }
 }
+/* ============================================================
+   SISTEMA DE RESERVAS v2 — MEJORADO
+   ============================================================ */
+
+.bk-hero {
+  position: relative;
+  background: var(--blue-card);
+  border-bottom: 1px solid var(--border);
+  padding: 56px 2rem 48px;
+  text-align: center;
+  overflow: hidden;
+}
+.bk-hero-bg {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at top center, rgba(28,78,216,0.15) 0%, transparent 70%);
+  pointer-events: none;
+}
+.bk-hero-content { position: relative; z-index: 1; }
+.bk-hero-sub {
+  font-size: 15px;
+  color: var(--muted);
+  font-weight: 300;
+  margin-top: 12px;
+}
+
+/* Layout dos columnas */
+.bk-layout {
+  display: grid;
+  grid-template-columns: 1fr 340px;
+  gap: 32px;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 40px 2rem 80px;
+  align-items: start;
+}
+
+/* Panel formulario */
+.bk-form-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+/* Steps */
+.bk-steps {
+  display: flex;
+  align-items: center;
+  margin-bottom: 32px;
+}
+.bk-step {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  opacity: .4;
+  transition: opacity .3s;
+}
+.bk-step.active { opacity: 1; }
+.bk-step-circle {
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  border: 2px solid var(--border2);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 16px;
+  color: var(--muted);
+  transition: all .3s;
+  flex-shrink: 0;
+}
+.bk-step.active .bk-step-circle {
+  border-color: var(--lime);
+  background: rgba(212,245,60,0.1);
+  color: var(--lime);
+}
+.bk-step-label {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--muted);
+  white-space: nowrap;
+}
+.bk-step.active .bk-step-label { color: var(--text); }
+.bk-step-track { flex: 1; height: 1px; background: var(--border); margin: 0 12px; }
+
+/* Bloques del formulario */
+.bk-section-block {
+  background: var(--blue-card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 28px;
+  margin-bottom: 16px;
+  transition: border-color .2s;
+}
+.bk-section-block:focus-within { border-color: rgba(212,245,60,0.2); }
+
+.bk-block-title {
+  font-family: var(--font-title);
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: var(--lime);
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.bk-form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+/* Input con icono */
+.input-wrap { position: relative; }
+.input-icon {
+  position: absolute;
+  left: 14px; top: 50%;
+  transform: translateY(-50%);
+  font-size: 16px;
+  color: var(--muted2);
+  pointer-events: none;
+  z-index: 1;
+}
+.input-with-icon { padding-left: 42px; }
+
+/* Fechas rápidas */
+.bk-quick-dates {
+  display: flex;
+  gap: 6px;
+  margin-top: 8px;
+}
+.bk-quick-btn {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--border);
+  color: var(--muted);
+  font-family: var(--font-body);
+  font-size: 12px;
+  padding: 5px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all .2s;
+}
+.bk-quick-btn:hover { border-color: var(--lime); color: var(--lime); }
+.bk-quick-btn.active { background: rgba(212,245,60,0.1); border-color: var(--lime); color: var(--lime); }
+
+/* Cards de cancha */
+.bk-court-cards {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+.bk-court-card {
+  background: rgba(255,255,255,0.03);
+  border: 2px solid var(--border);
+  border-radius: 12px;
+  padding: 16px;
+  cursor: pointer;
+  transition: all .25s;
+  position: relative;
+  overflow: hidden;
+}
+.bk-court-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(28,78,216,0.08) 0%, transparent 100%);
+  opacity: 0;
+  transition: opacity .25s;
+}
+.bk-court-card:hover { border-color: rgba(212,245,60,0.4); }
+.bk-court-card:hover::before { opacity: 1; }
+.bk-court-card.selected {
+  border-color: var(--lime);
+  background: rgba(212,245,60,0.06);
+}
+.bk-court-card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+.bk-court-num {
+  font-family: var(--font-title);
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--lime);
+  line-height: 1;
+}
+.bk-court-tag {
+  font-size: 9px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--muted2);
+  background: rgba(255,255,255,0.05);
+  padding: 3px 8px;
+  border-radius: 4px;
+}
+.bk-court-name {
+  font-family: var(--font-title);
+  font-size: 15px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.bk-court-sub { font-size: 11px; color: var(--muted); margin-top: 2px; }
+
+/* Slots de horario */
+.bk-slots-legend {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 14px;
+}
+.bk-leg {
+  font-size: 11px;
+  color: var(--muted);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.bk-leg::before {
+  content: '';
+  display: inline-block;
+  width: 10px; height: 10px;
+  border-radius: 3px;
+}
+.bk-leg.free::before    { background: rgba(255,255,255,0.08); border: 1px solid var(--border2); }
+.bk-leg.taken::before   { background: rgba(239,68,68,0.15); border: 1px solid rgba(239,68,68,0.3); }
+.bk-leg.selected::before { background: rgba(212,245,60,0.2); border: 1px solid var(--lime); }
+
+.bk-avail-count {
+  display: inline-block;
+  background: rgba(212,245,60,0.12);
+  border: 1px solid rgba(212,245,60,0.25);
+  color: var(--lime);
+  font-size: 10px;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 20px;
+  font-family: var(--font-body);
+  letter-spacing: 0.5px;
+  text-transform: lowercase;
+  margin-left: 8px;
+}
+
+.bk-time-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.bk-slot {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--border2);
+  border-radius: 10px;
+  padding: 10px 4px 8px;
+  text-align: center;
+  cursor: pointer;
+  transition: all .2s;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  position: relative;
+  overflow: hidden;
+}
+.bk-slot:hover { border-color: var(--lime); background: rgba(212,245,60,0.06); transform: translateY(-1px); }
+.bk-slot.selected {
+  background: rgba(212,245,60,0.12);
+  border-color: var(--lime);
+  box-shadow: 0 0 0 1px rgba(212,245,60,0.3);
+}
+.bk-slot.taken {
+  opacity: .35;
+  cursor: not-allowed;
+  background: rgba(239,68,68,0.06);
+  border-color: rgba(239,68,68,0.2);
+}
+.bk-slot.past { opacity: .2; cursor: not-allowed; }
+.bk-slot-period { font-size: 12px; line-height: 1; }
+.bk-slot-time { font-size: 12px; font-weight: 600; color: var(--text); line-height: 1; }
+.bk-slot.taken .bk-slot-time   { text-decoration: line-through; color: var(--muted); }
+.bk-slot.selected .bk-slot-time { color: var(--lime); }
+.bk-slot-icon { font-size: 12px; color: var(--muted2); }
+
+/* Botón confirmar */
+.book-btn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  background: var(--lime);
+  color: var(--blue);
+  font-family: var(--font-title);
+  font-weight: 700;
+  font-size: 16px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  border: none;
+  padding: 18px;
+  border-radius: 14px;
+  cursor: pointer;
+  transition: background .2s, transform .15s, box-shadow .2s;
+  margin-top: 8px;
+}
+.book-btn:hover {
+  background: #bfde32;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 32px rgba(212,245,60,0.3);
+}
+
+/* Success */
+.bk-success {
+  background: rgba(212,245,60,0.05);
+  border: 1px solid rgba(212,245,60,0.2);
+  border-radius: 16px;
+  padding: 48px 32px;
+  text-align: center;
+  animation: fadeUp .5s cubic-bezier(.22,1,.36,1);
+}
+.bk-success-icon {
+  font-size: 56px;
+  color: var(--lime);
+  margin-bottom: 16px;
+}
+.bk-success h3 {
+  font-family: var(--font-title);
+  font-size: 28px;
+  font-weight: 700;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+.bk-success p { font-size: 14px; color: var(--muted); margin-bottom: 24px; }
+.bk-success-actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+
+/* Panel lateral */
+.bk-side-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  position: sticky;
+  top: 80px;
+}
+
+/* Card resumen */
+.bk-summary-card {
+  background: rgba(28,78,216,0.1);
+  border: 1px solid rgba(28,78,216,0.3);
+  border-radius: 16px;
+  padding: 24px;
+  animation: fadeUp .3s ease;
+}
+.bk-summary-title {
+  font-family: var(--font-title);
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: #93C5FD;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.bk-summary-rows { display: flex; flex-direction: column; gap: 2px; margin-bottom: 16px; }
+.bk-summary-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 8px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+  gap: 16px;
+}
+.bk-summary-row:last-child { border-bottom: none; }
+.bk-sr-label {
+  font-size: 12px;
+  color: var(--muted);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+.bk-sr-value { font-size: 13px; font-weight: 500; text-align: right; }
+.bk-summary-total {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid rgba(212,245,60,0.2);
+  padding-top: 14px;
+  margin-top: 4px;
+}
+.bk-summary-total span:first-child { font-size: 13px; color: var(--muted); }
+.bk-total-price {
+  font-family: var(--font-title);
+  font-size: 26px;
+  font-weight: 700;
+  color: var(--lime);
+}
+.bk-summary-note {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  color: var(--muted2);
+  margin-top: 12px;
+  text-align: center;
+  justify-content: center;
+}
+
+/* Info card */
+.bk-info-card, .bk-avail-card {
+  background: var(--blue-card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 20px;
+}
+.bk-info-title {
+  font-family: var(--font-title);
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: var(--muted);
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.bk-info-rows { display: flex; flex-direction: column; gap: 8px; }
+.bk-info-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+  color: var(--muted);
+}
+.bk-info-row i { color: var(--lime); font-size: 14px; flex-shrink: 0; }
+
+/* Disponibilidad hoy en sidebar */
+.avail-today-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+.avail-court-name { font-size: 12px; color: var(--text); width: 64px; flex-shrink: 0; }
+.avail-mini-bar {
+  flex: 1;
+  height: 6px;
+  background: rgba(255,255,255,0.06);
+  border-radius: 3px;
+  overflow: hidden;
+}
+.avail-mini-fill { height: 100%; background: rgba(239,68,68,0.5); border-radius: 3px; transition: width .5s; }
+.avail-court-free { font-size: 11px; color: var(--lime); width: 50px; text-align: right; flex-shrink: 0; }
+
+/* ============================================================
+   ADMIN v2 — MEJORADO
+   ============================================================ */
+
+/* Layout dos columnas en overview */
+.admin-two-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0 32px;
+  padding: 0 2rem;
+}
+
+/* Metric card con icono */
+.metric-label-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+.metric-icon { font-size: 18px; color: var(--muted2); }
+
+/* Court status cards */
+.court-status-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 0 2rem 24px;
+}
+.court-status-card {
+  background: var(--blue-card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 16px;
+}
+.cs-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+.cs-name { font-family: var(--font-title); font-size: 14px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
+.cs-badge {
+  font-size: 11px;
+  font-weight: 500;
+  padding: 3px 10px;
+  border-radius: 20px;
+}
+.cs-free     { background: rgba(212,245,60,0.1); color: var(--lime); border: 1px solid rgba(212,245,60,0.25); }
+.cs-occupied { background: rgba(239,68,68,0.1);  color: #fca5a5; border: 1px solid rgba(239,68,68,0.2); }
+.cs-bar-wrap { height: 4px; background: rgba(255,255,255,0.06); border-radius: 2px; margin-bottom: 8px; overflow: hidden; }
+.cs-bar { height: 100%; background: var(--lime); border-radius: 2px; transition: width .5s; }
+.cs-stats { display: flex; gap: 16px; font-size: 11px; color: var(--muted2); }
+
+/* Próximas reservas mejoradas */
+.proxima-hora-wrap { display: flex; flex-direction: column; align-items: center; gap: 3px; min-width: 56px; }
+.proxima-hoy-tag {
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: var(--lime);
+  background: rgba(212,245,60,0.1);
+  padding: 2px 5px;
+  border-radius: 3px;
+}
+.proxima-actions { display: flex; gap: 4px; }
+
+/* Tabla mejorada */
+.table-scroll-wrap { overflow-x: auto; }
+.row-cancelled td { opacity: .4; }
+.td-hoy-tag {
+  display: inline-block;
+  font-size: 9px;
+  letter-spacing: 1px;
+  color: var(--lime);
+  background: rgba(212,245,60,0.1);
+  padding: 1px 6px;
+  border-radius: 3px;
+  margin-top: 3px;
+  font-weight: 700;
+}
+.td-court-badge {
+  background: rgba(28,78,216,0.2);
+  border: 1px solid rgba(28,78,216,0.3);
+  color: #93C5FD;
+  font-size: 11px;
+  padding: 3px 8px;
+  border-radius: 5px;
+}
+.td-time-chip {
+  font-family: var(--font-title);
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text);
+}
+.admin-export-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(212,245,60,0.08);
+  border: 1px solid rgba(212,245,60,0.25);
+  color: var(--lime);
+  font-size: 12px;
+  font-weight: 500;
+  padding: 6px 14px;
+  border-radius: 7px;
+  cursor: pointer;
+  transition: background .2s;
+}
+.admin-export-btn:hover { background: rgba(212,245,60,0.15); }
+
+/* Agenda mejorada */
+.agenda-view-btn {
+  background: var(--blue-card);
+  border: 1px solid var(--border2);
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 500;
+  padding: 5px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all .2s;
+}
+.agenda-view-btn.active { border-color: var(--lime); color: var(--lime); background: rgba(212,245,60,0.08); }
+
+.sched-day-header {
+  font-family: var(--font-title);
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--muted);
+  margin: 28px 0 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.sched-day-header.sched-day-today { color: var(--lime); }
+.sched-hoy-chip {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  background: var(--lime);
+  color: var(--blue);
+  padding: 2px 7px;
+  border-radius: 4px;
+}
+.sched-day-count {
+  font-size: 11px;
+  color: var(--muted2);
+  margin-left: auto;
+  font-family: var(--font-body);
+  letter-spacing: 0;
+  font-weight: 400;
+}
+.sched-current-row .sched-time { color: var(--lime); }
+.sched-now-badge {
+  display: block;
+  font-size: 8px;
+  letter-spacing: 1px;
+  color: var(--lime);
+  text-transform: uppercase;
+  margin-top: 2px;
+}
+.slot-tel { font-size: 10px; color: var(--muted); margin-top: 2px; }
+.slot-del-btn {
+  position: absolute;
+  top: 4px; right: 4px;
+  background: none;
+  border: none;
+  color: var(--muted2);
+  cursor: pointer;
+  font-size: 12px;
+  padding: 2px;
+  opacity: 0;
+  transition: opacity .15s, color .15s;
+  border-radius: 4px;
+}
+.sched-slot.occupied { position: relative; }
+.sched-slot.occupied:hover .slot-del-btn { opacity: 1; }
+.slot-del-btn:hover { color: #fca5a5; }
+
+/* Nueva reserva — preview */
+.an-preview {
+  background: rgba(212,245,60,0.04);
+  border: 1px solid rgba(212,245,60,0.15);
+  border-radius: 12px;
+  padding: 18px;
+  margin-bottom: 20px;
+  animation: fadeUp .25s ease;
+}
+.an-preview-title {
+  font-family: var(--font-title);
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: var(--lime);
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+.an-preview-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 5px 0;
+  font-size: 13px;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+}
+.an-preview-row:last-child { border-bottom: none; }
+.an-preview-row span:first-child { color: var(--muted); }
+.an-preview-total span:last-child { color: var(--lime); font-weight: 600; font-family: var(--font-title); font-size: 16px; }
+
+/* Buscar — mejoras */
+.search-clear-btn {
+  position: absolute;
+  right: 16px; top: 50%;
+  transform: translateY(-50%);
+  background: rgba(255,255,255,0.08);
+  border: none;
+  color: var(--muted);
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  transition: background .2s;
+}
+.search-clear-btn:hover { background: rgba(255,255,255,0.14); }
+.search-stats {
+  font-size: 12px;
+  color: var(--muted);
+  padding: 0 0 12px;
+  letter-spacing: 0.5px;
+}
+.search-empty-state {
+  padding: 48px 16px;
+  text-align: center;
+}
+
+/* Estadísticas */
+.stats-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  padding: 24px 2rem 48px;
+}
+.stats-card {
+  background: var(--blue-card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 24px;
+}
+.stats-card-title {
+  font-family: var(--font-title);
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: var(--muted);
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.stats-card canvas { display: block; width: 100%; }
+
+/* Donut bars */
+.stats-donut-wrap { display: flex; flex-direction: column; gap: 14px; }
+.donut-row { display: flex; align-items: center; gap: 10px; }
+.donut-bar-wrap { flex: 1; height: 8px; background: rgba(255,255,255,0.06); border-radius: 4px; overflow: hidden; }
+.donut-bar { height: 100%; border-radius: 4px; transition: width .8s cubic-bezier(.22,1,.36,1); }
+.donut-label { font-size: 12px; color: var(--text); width: 68px; flex-shrink: 0; }
+.donut-count { font-size: 12px; color: var(--muted); width: 60px; text-align: right; flex-shrink: 0; }
+
+/* Stats summary */
+.stats-summary { display: flex; flex-direction: column; gap: 2px; }
+.stats-sum-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+}
+.stats-sum-row:last-child { border-bottom: none; }
+.stats-sum-row i { font-size: 16px; width: 20px; }
+.stats-sum-label { flex: 1; font-size: 13px; color: var(--muted); }
+.stats-sum-value { font-family: var(--font-title); font-size: 18px; font-weight: 700; }
+
+/* Ocu cell current */
+.ocu-cell.current-hour { background: rgba(212,245,60,0.05); border: 1px solid rgba(212,245,60,0.15); }
+.ocu-cell.past { background: rgba(255,255,255,0.02); opacity: .5; }
+.ocu-now-dot { width: 5px; height: 5px; background: var(--lime); border-radius: 50%; animation: pulse 1.5s infinite; }
+
+/* ============================================================
+   RESPONSIVE v2
+   ============================================================ */
+@media (max-width: 1000px) {
+  .bk-layout { grid-template-columns: 1fr; }
+  .bk-side-panel { position: static; }
+  .admin-two-col { grid-template-columns: 1fr; }
+  .stats-grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 640px) {
+  .bk-form-row    { grid-template-columns: 1fr; }
+  .bk-court-cards { grid-template-columns: 1fr 1fr; }
+  .bk-time-grid   { grid-template-columns: repeat(4, 1fr); }
+  .bk-layout      { padding: 24px 1rem 60px; }
+  .proxima-tel    { display: none; }
+  .court-status-grid { padding: 0 1rem 16px; }
+}
+@media (max-width: 420px) {
+  .bk-time-grid   { grid-template-columns: repeat(3, 1fr); }
+}

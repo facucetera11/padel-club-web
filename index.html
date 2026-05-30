@@ -100,9 +100,9 @@
           <p class="feature-desc">Elegí tu horario y cancha desde el celular, sin llamar ni esperar. Confirmación inmediata.</p>
         </div>
         <div class="feature-item">
-          <i class="ti ti-tennis feature-icon" aria-hidden="true"></i>
+          <i class="ti ti-tools-kitchen-2 feature-icon" aria-hidden="true"></i>
           <div class="feature-title">Buffet</div>
-          <p class="feature-desc">Contamos con buffet en el club</p>
+          <p class="feature-desc">Contamos con buffet en el club: bebidas, snacks y comidas para recargar energías antes y después del partido.</p>
         </div>
       </div>
     </div>
@@ -218,83 +218,204 @@
 
   <!-- ========== PAGE: RESERVAR ========== -->
   <div id="page-reservar" class="page">
-    <div class="booking-hero">
-      <div class="section-label" style="text-align:center">Sistema de turnos</div>
-      <div class="section-title" style="text-align:center">Reservar<br><span>cancha</span></div>
+
+    <div class="bk-hero">
+      <div class="bk-hero-bg"></div>
+      <div class="bk-hero-content">
+        <div class="section-label" style="text-align:center;position:relative;z-index:1">Sistema de turnos</div>
+        <div class="section-title" style="text-align:center;position:relative;z-index:1">Reservar <span>cancha</span></div>
+        <p class="bk-hero-sub">Elegí cancha, fecha y horario. Confirmación inmediata sin llamadas.</p>
+      </div>
     </div>
 
-    <div class="section" style="padding-top:0">
-      <div class="booking-card">
-        <div class="booking-steps">
-          <div class="step active" id="step1">
-            <div class="step-num">1</div>
-            <div class="step-text">Tus datos</div>
+    <div class="bk-layout">
+
+      <!-- Panel izquierdo: formulario -->
+      <div class="bk-form-panel">
+
+        <!-- Progress steps -->
+        <div class="bk-steps">
+          <div class="bk-step active" id="step1">
+            <div class="bk-step-circle"><i class="ti ti-user"></i></div>
+            <div class="bk-step-label">Tus datos</div>
           </div>
-          <div class="step-line"></div>
-          <div class="step" id="step2">
-            <div class="step-num">2</div>
-            <div class="step-text">Horario</div>
+          <div class="bk-step-track"></div>
+          <div class="bk-step" id="step2">
+            <div class="bk-step-circle"><i class="ti ti-clock"></i></div>
+            <div class="bk-step-label">Horario</div>
           </div>
-          <div class="step-line"></div>
-          <div class="step" id="step3">
-            <div class="step-num">3</div>
-            <div class="step-text">Confirmar</div>
+          <div class="bk-step-track"></div>
+          <div class="bk-step" id="step3">
+            <div class="bk-step-circle"><i class="ti ti-check"></i></div>
+            <div class="bk-step-label">Confirmar</div>
           </div>
         </div>
 
-        <div class="booking-body">
-          <div class="booking-grid">
+        <!-- Sección A: Datos personales -->
+        <div class="bk-section-block">
+          <div class="bk-block-title"><i class="ti ti-user-circle"></i> Tus datos</div>
+          <div class="bk-form-row">
+            <div class="form-group">
+              <label class="form-label">Nombre completo</label>
+              <div class="input-wrap">
+                <i class="ti ti-user input-icon"></i>
+                <input type="text" class="form-input input-with-icon" id="inp-nombre" placeholder="Ej: Lucas García" oninput="checkForm()" />
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="form-label">WhatsApp / Teléfono</label>
+              <div class="input-wrap">
+                <i class="ti ti-brand-whatsapp input-icon" style="color:#25D366"></i>
+                <input type="text" class="form-input input-with-icon" id="inp-tel" placeholder="Ej: 2227-XXXXXX" oninput="checkForm()" />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Sección B: Cancha y fecha -->
+        <div class="bk-section-block">
+          <div class="bk-block-title"><i class="ti ti-tennis"></i> Cancha y fecha</div>
+          <div class="bk-form-row">
             <div class="form-group">
               <label class="form-label">Cancha</label>
-              <select class="form-select" id="sel-cancha" onchange="updateSlots()">
-                <option value="">— seleccionar —</option>
-                <option value="1">Cancha 1 — Norte</option>
-                <option value="2">Cancha 2 — Sur</option>
-              </select>
+              <div class="bk-court-cards" id="court-cards">
+                <div class="bk-court-card" onclick="selectCourt(1, this)">
+                  <div class="bk-court-card-top">
+                    <span class="bk-court-num">1</span>
+                    <span class="bk-court-tag">Norte</span>
+                  </div>
+                  <div class="bk-court-name">Cancha 1</div>
+                  <div class="bk-court-sub">Sintetico · Blindex</div>
+                </div>
+                <div class="bk-court-card" onclick="selectCourt(2, this)">
+                  <div class="bk-court-card-top">
+                    <span class="bk-court-num">2</span>
+                    <span class="bk-court-tag">Sur</span>
+                  </div>
+                  <div class="bk-court-name">Cancha 2</div>
+                  <div class="bk-court-sub">Sintetico · Blindex</div>
+                </div>
+              </div>
+              <!-- hidden select for compatibility -->
+              <select class="form-select" id="sel-cancha" onchange="updateSlots()" style="display:none"></select>
             </div>
             <div class="form-group">
               <label class="form-label">Fecha</label>
-              <input type="date" class="form-input" id="sel-fecha" onchange="updateSlots()" />
-            </div>
-            <div class="form-group">
-              <label class="form-label">Tu nombre</label>
-              <input type="text" class="form-input" id="inp-nombre" placeholder="Ej: Lucas García" oninput="checkForm()" />
-            </div>
-            <div class="form-group">
-              <label class="form-label">Teléfono / WhatsApp</label>
-              <input type="text" class="form-input" id="inp-tel" placeholder="Ej: 2227-XXXXXX" oninput="checkForm()" />
+              <div class="input-wrap">
+                <i class="ti ti-calendar input-icon"></i>
+                <input type="date" class="form-input input-with-icon" id="sel-fecha" onchange="updateSlots()" />
+              </div>
+              <div class="bk-quick-dates" id="bk-quick-dates"></div>
             </div>
           </div>
+        </div>
 
-          <div id="slots-section" style="display:none">
-            <p class="slots-label">Horarios disponibles</p>
-            <div class="time-slots" id="slots-grid"></div>
+        <!-- Sección C: Slots -->
+        <div class="bk-section-block" id="slots-section" style="display:none">
+          <div class="bk-block-title"><i class="ti ti-clock-hour-4"></i> Horario disponible <span class="bk-avail-count" id="bk-avail-count"></span></div>
+          <div class="bk-slots-legend">
+            <span class="bk-leg free">Disponible</span>
+            <span class="bk-leg taken">Ocupado</span>
+            <span class="bk-leg selected">Seleccionado</span>
           </div>
+          <div class="bk-time-grid" id="slots-grid"></div>
+        </div>
 
-          <div class="confirm-box" id="confirm-box">
-            <div class="confirm-row"><span>Cancha</span><span id="c-cancha">—</span></div>
-            <div class="confirm-row"><span>Fecha</span><span id="c-fecha">—</span></div>
-            <div class="confirm-row"><span>Horario</span><span id="c-hora">—</span></div>
-            <div class="confirm-row"><span>Jugador</span><span id="c-nombre">—</span></div>
-            <div class="confirm-row confirm-total"><span>Total</span><span id="c-precio">—</span></div>
+        <!-- Botón confirmar -->
+        <button class="book-btn" id="book-btn" onclick="confirmarReserva()" style="display:none">
+          <i class="ti ti-calendar-check" aria-hidden="true"></i>
+          confirmar reserva
+        </button>
+
+        <!-- Mensaje de éxito -->
+        <div class="bk-success" id="success-msg" style="display:none">
+          <div class="bk-success-icon">
+            <i class="ti ti-circle-check"></i>
           </div>
-
-          <button class="book-btn" id="book-btn" onclick="confirmarReserva()">
-            <i class="ti ti-calendar-check" aria-hidden="true"></i>
-            confirmar reserva
-          </button>
-
-          <div class="success-msg" id="success-msg">
-            <i class="ti ti-circle-check success-icon" aria-hidden="true"></i>
-            <h3>¡Turno confirmado!</h3>
-            <p id="success-detail"></p>
-            <button class="btn-outline" style="margin-top:20px;display:inline-flex" onclick="resetBooking()">
-              hacer otra reserva
+          <h3>¡Turno confirmado!</h3>
+          <p id="success-detail"></p>
+          <div class="bk-success-actions">
+            <button class="btn-primary" onclick="resetBooking()">
+              <i class="ti ti-plus"></i> Nueva reserva
+            </button>
+            <button class="btn-outline" onclick="showPage('home')">
+              <i class="ti ti-home"></i> Inicio
             </button>
           </div>
         </div>
-      </div>
-    </div>
+
+      </div><!-- /bk-form-panel -->
+
+      <!-- Panel derecho: resumen + info -->
+      <div class="bk-side-panel">
+
+        <!-- Card resumen de reserva -->
+        <div class="bk-summary-card" id="confirm-box" style="display:none">
+          <div class="bk-summary-title"><i class="ti ti-receipt"></i> Resumen</div>
+          <div class="bk-summary-rows">
+            <div class="bk-summary-row">
+              <span class="bk-sr-label"><i class="ti ti-tennis"></i> Cancha</span>
+              <span class="bk-sr-value" id="c-cancha">—</span>
+            </div>
+            <div class="bk-summary-row">
+              <span class="bk-sr-label"><i class="ti ti-calendar"></i> Fecha</span>
+              <span class="bk-sr-value" id="c-fecha">—</span>
+            </div>
+            <div class="bk-summary-row">
+              <span class="bk-sr-label"><i class="ti ti-clock"></i> Horario</span>
+              <span class="bk-sr-value" id="c-hora">—</span>
+            </div>
+            <div class="bk-summary-row">
+              <span class="bk-sr-label"><i class="ti ti-user"></i> Jugador</span>
+              <span class="bk-sr-value" id="c-nombre">—</span>
+            </div>
+          </div>
+          <div class="bk-summary-total">
+            <span>Total a pagar</span>
+            <span class="bk-total-price" id="c-precio">—</span>
+          </div>
+          <div class="bk-summary-note">
+            <i class="ti ti-info-circle"></i>
+            Pago en el complejo al llegar
+          </div>
+        </div>
+
+        <!-- Card de info del club -->
+        <div class="bk-info-card">
+          <div class="bk-info-title"><i class="ti ti-building"></i> La Pancha Pádel</div>
+          <div class="bk-info-rows">
+            <div class="bk-info-row">
+              <i class="ti ti-map-pin"></i>
+              <span>General Las Heras, Buenos Aires</span>
+            </div>
+            <div class="bk-info-row">
+              <i class="ti ti-clock"></i>
+              <span>Lun–Dom · 07:00 a 23:00</span>
+            </div>
+            <div class="bk-info-row">
+              <i class="ti ti-currency-dollar"></i>
+              <span id="bk-precio-hora">$8.000 por hora</span>
+            </div>
+            <div class="bk-info-row">
+              <i class="ti ti-tennis"></i>
+              <span>2 canchas · Sintetico · Blindex</span>
+            </div>
+            <div class="bk-info-row">
+              <i class="ti ti-tools-kitchen-2"></i>
+              <span>Buffet disponible en el club</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Disponibilidad rápida hoy -->
+        <div class="bk-avail-card" id="bk-avail-today">
+          <div class="bk-info-title"><i class="ti ti-calendar-check"></i> Disponibilidad hoy</div>
+          <div id="bk-avail-today-content"></div>
+        </div>
+
+      </div><!-- /bk-side-panel -->
+
+    </div><!-- /bk-layout -->
   </div><!-- /page-reservar -->
 
   <!-- ========== PAGE: ADMIN LOGIN ========== -->
@@ -335,7 +456,7 @@
       <div class="admin-header-right">
         <div class="admin-live-badge"><span class="live-dot"></span> EN VIVO</div>
         <button class="btn-outline" style="padding:8px 18px;font-size:13px" onclick="adminLogout()">
-          <i class="ti ti-logout" aria-hidden="true"></i> salir
+          <i class="ti ti-logout"></i> salir
         </button>
       </div>
     </div>
@@ -351,53 +472,79 @@
         <i class="ti ti-calendar-week"></i> agenda
       </button>
       <button class="anav-btn" onclick="showAdminTab('nueva')">
-        <i class="ti ti-plus"></i> nueva reserva
+        <i class="ti ti-plus"></i> nueva
       </button>
       <button class="anav-btn" onclick="showAdminTab('buscar')">
         <i class="ti ti-search"></i> buscar
+      </button>
+      <button class="anav-btn" onclick="showAdminTab('estadisticas')">
+        <i class="ti ti-chart-bar"></i> estadísticas
       </button>
     </div>
 
     <!-- ===== Tab: Overview ===== -->
     <div id="admin-overview">
-      <!-- Métricas principales -->
+
+      <!-- KPI cards -->
       <div class="admin-grid">
         <div class="metric-card metric-accent">
-          <div class="metric-label">Reservas hoy</div>
+          <div class="metric-label-row">
+            <span class="metric-label">Reservas hoy</span>
+            <i class="ti ti-calendar-event metric-icon"></i>
+          </div>
           <div class="metric-value lime" id="m-hoy">0</div>
           <div class="metric-sub" id="m-hoy-sub">en ambas canchas</div>
+          <div class="metric-sparkline" id="spark-hoy"></div>
         </div>
         <div class="metric-card">
-          <div class="metric-label">Total activas</div>
+          <div class="metric-label-row">
+            <span class="metric-label">Total activas</span>
+            <i class="ti ti-check-circle metric-icon"></i>
+          </div>
           <div class="metric-value lime" id="m-semana">0</div>
-          <div class="metric-sub">confirmadas y pendientes</div>
+          <div class="metric-sub">confirmadas + pendientes</div>
         </div>
         <div class="metric-card">
-          <div class="metric-label">Ingresos estimados</div>
+          <div class="metric-label-row">
+            <span class="metric-label">Ingresos estimados</span>
+            <i class="ti ti-currency-dollar metric-icon"></i>
+          </div>
           <div class="metric-value" id="m-ingresos">$0</div>
           <div class="metric-sub" id="m-ingresos-sub">@$0/hora</div>
         </div>
         <div class="metric-card">
-          <div class="metric-label">Próximo turno libre</div>
-          <div class="metric-value" id="m-libre" style="font-size:26px">—</div>
+          <div class="metric-label-row">
+            <span class="metric-label">Próximo libre hoy</span>
+            <i class="ti ti-clock metric-icon"></i>
+          </div>
+          <div class="metric-value" id="m-libre" style="font-size:28px">—</div>
           <div class="metric-sub" id="m-libre-sub"></div>
         </div>
       </div>
 
-      <!-- Ocupación por cancha hoy -->
+      <!-- Ocupación hoy -->
       <div class="admin-section-title">ocupación de hoy</div>
       <div class="ocu-grid" id="ocu-grid"></div>
 
-      <!-- Próximas reservas -->
-      <div class="admin-section-title">próximas reservas <span class="section-badge" id="proximas-count">0</span></div>
-      <div class="proximas-list" id="proximas-list"></div>
+      <!-- Próximas + Chart en dos columnas -->
+      <div class="admin-two-col">
+        <div>
+          <div class="admin-section-title">próximas reservas <span class="section-badge" id="proximas-count">0</span></div>
+          <div class="proximas-list" id="proximas-list"></div>
+        </div>
+        <div>
+          <div class="admin-section-title">actividad esta semana</div>
+          <div class="weekly-chart-wrap">
+            <canvas id="weekly-chart" height="120"></canvas>
+          </div>
 
-      <!-- Mini chart ocupación semanal -->
-      <div class="admin-section-title">actividad esta semana</div>
-      <div class="weekly-chart-wrap">
-        <canvas id="weekly-chart" height="100"></canvas>
+          <!-- Resumen por cancha hoy -->
+          <div class="admin-section-title" style="padding-top:16px">estado de canchas — hoy</div>
+          <div class="court-status-grid" id="court-status-grid"></div>
+        </div>
       </div>
-    </div>
+
+    </div><!-- /admin-overview -->
 
     <!-- ===== Tab: Reservas ===== -->
     <div id="admin-reservas" style="display:none">
@@ -417,23 +564,35 @@
                 <option value="Cancha 1">Cancha 1</option>
                 <option value="Cancha 2">Cancha 2</option>
               </select>
+              <select class="filter-select" id="filter-fecha" onchange="renderReservas()">
+                <option value="">todas las fechas</option>
+                <option value="today">hoy</option>
+                <option value="tomorrow">mañana</option>
+                <option value="week">esta semana</option>
+              </select>
             </div>
             <span class="table-count" id="res-count">0 registros</span>
+            <button class="admin-export-btn" onclick="exportCSV()" title="Exportar CSV">
+              <i class="ti ti-download"></i> CSV
+            </button>
           </div>
         </div>
-        <table>
-          <thead>
-            <tr>
-              <th>Jugador</th>
-              <th>Cancha</th>
-              <th>Fecha</th>
-              <th>Horario</th>
-              <th>Estado</th>
-              <th>Acciones</th>
-            </tr>
-          </thead>
-          <tbody id="reservas-tbody"></tbody>
-        </table>
+        <div class="table-scroll-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Jugador</th>
+                <th>Cancha</th>
+                <th>Fecha</th>
+                <th>Horario</th>
+                <th>Estado</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody id="reservas-tbody"></tbody>
+          </table>
+        </div>
       </div>
     </div>
 
@@ -444,6 +603,11 @@
         <span class="agenda-range-label" id="agenda-range-label"></span>
         <button class="agenda-nav-btn" onclick="agendaShift(1)"><i class="ti ti-chevron-right"></i></button>
         <button class="agenda-today-btn" onclick="agendaGoToday()">hoy</button>
+        <div style="margin-left:auto;display:flex;gap:8px;align-items:center">
+          <span style="font-size:11px;color:var(--muted);letter-spacing:1px;text-transform:uppercase">Ver:</span>
+          <button class="agenda-view-btn active" id="view-5d" onclick="setAgendaView(5, this)">5 días</button>
+          <button class="agenda-view-btn" id="view-1d" onclick="setAgendaView(1, this)">1 día</button>
+        </div>
       </div>
       <div class="schedule-grid">
         <div id="agenda-content"></div>
@@ -457,11 +621,17 @@
         <div class="admin-form-grid">
           <div class="form-group">
             <label class="form-label">Nombre del jugador</label>
-            <input type="text" class="form-input" id="an-nombre" placeholder="Ej: Lucas García" />
+            <div class="input-wrap">
+              <i class="ti ti-user input-icon"></i>
+              <input type="text" class="form-input input-with-icon" id="an-nombre" placeholder="Ej: Lucas García" />
+            </div>
           </div>
           <div class="form-group">
             <label class="form-label">Teléfono / WhatsApp</label>
-            <input type="text" class="form-input" id="an-tel" placeholder="Ej: 2227-XXXXXX" />
+            <div class="input-wrap">
+              <i class="ti ti-brand-whatsapp input-icon" style="color:#25D366"></i>
+              <input type="text" class="form-input input-with-icon" id="an-tel" placeholder="Ej: 2227-XXXXXX" />
+            </div>
           </div>
           <div class="form-group">
             <label class="form-label">Cancha</label>
@@ -484,14 +654,27 @@
           <div class="form-group">
             <label class="form-label">Estado</label>
             <select class="form-select" id="an-estado">
-              <option value="confirmed">Confirmado</option>
-              <option value="pending">Pendiente</option>
+              <option value="confirmed">✓ Confirmado</option>
+              <option value="pending">⏳ Pendiente</option>
             </select>
           </div>
         </div>
+
+        <!-- Preview de la nueva reserva -->
+        <div class="an-preview" id="an-preview" style="display:none">
+          <div class="an-preview-title"><i class="ti ti-eye"></i> Vista previa</div>
+          <div class="an-preview-row"><span>Jugador</span><span id="prev-nombre">—</span></div>
+          <div class="an-preview-row"><span>Cancha</span><span id="prev-cancha">—</span></div>
+          <div class="an-preview-row"><span>Turno</span><span id="prev-turno">—</span></div>
+          <div class="an-preview-row an-preview-total"><span>Total</span><span id="prev-total">—</span></div>
+        </div>
+
         <div class="admin-form-actions">
           <button class="btn-primary" onclick="adminCrearReserva()">
             <i class="ti ti-check"></i> crear reserva
+          </button>
+          <button class="btn-outline" style="padding:12px 24px" onclick="initNuevaReserva()">
+            <i class="ti ti-refresh"></i> limpiar
           </button>
           <div class="an-msg" id="an-msg"></div>
         </div>
@@ -504,9 +687,38 @@
         <div class="search-bar-wrap">
           <i class="ti ti-search search-icon-big"></i>
           <input type="text" class="search-input-big" id="search-input" placeholder="Buscar por nombre o teléfono…" oninput="renderBuscar()" />
+          <button class="search-clear-btn" id="search-clear" onclick="clearSearch()" style="display:none">
+            <i class="ti ti-x"></i>
+          </button>
         </div>
+        <div class="search-stats" id="search-stats"></div>
         <div class="search-results" id="search-results">
-          <p class="search-hint">Escribí para buscar entre las reservas</p>
+          <div class="search-empty-state">
+            <i class="ti ti-search" style="font-size:40px;color:var(--muted2);margin-bottom:12px;display:block"></i>
+            <p style="color:var(--muted);font-size:14px">Escribí un nombre o teléfono para buscar</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== Tab: Estadísticas ===== -->
+    <div id="admin-estadisticas" style="display:none">
+      <div class="stats-grid">
+        <div class="stats-card">
+          <div class="stats-card-title"><i class="ti ti-chart-bar"></i> reservas por día de semana</div>
+          <canvas id="stats-weekday" height="160"></canvas>
+        </div>
+        <div class="stats-card">
+          <div class="stats-card-title"><i class="ti ti-clock"></i> horarios más populares</div>
+          <canvas id="stats-hours" height="160"></canvas>
+        </div>
+        <div class="stats-card">
+          <div class="stats-card-title"><i class="ti ti-tennis"></i> uso por cancha</div>
+          <div class="stats-donut-wrap" id="stats-donut"></div>
+        </div>
+        <div class="stats-card">
+          <div class="stats-card-title"><i class="ti ti-trending-up"></i> resumen general</div>
+          <div class="stats-summary" id="stats-summary"></div>
         </div>
       </div>
     </div>
