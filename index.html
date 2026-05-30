@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>La Pancha Pádel — Marcos Paz</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css" />
+</head>
+<body>
+
+  <!-- ========== NAVBAR ========== -->
+  <nav id="navbar">
+    <div class="logo" onclick="showPage('home')">LA PANCHA<span> PÁDEL</span></div>
+    <div class="nav-links">
+      <button class="nav-btn active" onclick="showPage('home')">inicio</button>
+      <button class="nav-btn" onclick="showPage('canchas')">canchas</button>
+      <button class="nav-btn" onclick="showPage('reservar')">reservar</button>
+      <button class="nav-btn" onclick="showPage('admin-login')">admin</button>
+    </div>
+    <button class="nav-cta" onclick="showPage('reservar')">
+      <i class="ti ti-calendar-plus" aria-hidden="true"></i> reservar turno
+    </button>
+  </nav>
+
+  <!-- ========== PAGE: INICIO ========== -->
+  <div id="page-home" class="page active">
+
+    <!-- HERO -->
+    <div class="hero">
+      <div class="hero-bg"></div>
+      <div class="hero-net-pattern"></div>
+
+      <!-- Cancha perspectiva SVG -->
+      <div class="hero-court-wrap">
+        <svg class="hero-court-svg" viewBox="0 0 900 500" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <rect x="100" y="60" width="700" height="380" rx="4" stroke="white" stroke-width="2"/>
+          <rect x="140" y="60" width="620" height="380" stroke="white" stroke-width="1" stroke-dasharray="6 4"/>
+          <line x1="450" y1="60" x2="450" y2="440" stroke="white" stroke-width="1.5"/>
+          <line x1="100" y1="250" x2="800" y2="250" stroke="white" stroke-width="2"/>
+          <rect x="280" y="60" width="340" height="380" stroke="white" stroke-width="1" opacity="0.5"/>
+          <line x1="100" y1="190" x2="800" y2="190" stroke="white" stroke-width="1" opacity="0.4" stroke-dasharray="4 3"/>
+          <line x1="100" y1="310" x2="800" y2="310" stroke="white" stroke-width="1" opacity="0.4" stroke-dasharray="4 3"/>
+          <circle cx="450" cy="250" r="5" fill="white" opacity="0.8"/>
+          <rect x="430" y="240" width="40" height="20" stroke="white" stroke-width="1" opacity="0.5"/>
+          <!-- Net post indicadores -->
+          <line x1="280" y1="244" x2="280" y2="256" stroke="white" stroke-width="2.5"/>
+          <line x1="620" y1="244" x2="620" y2="256" stroke="white" stroke-width="2.5"/>
+        </svg>
+      </div>
+
+      <div class="hero-content">
+        <div class="hero-pill">
+          <i class="ti ti-map-pin" aria-hidden="true"></i>
+          <!-- EDITAR: localidad -->
+          Marcos Paz, Buenos Aires
+        </div>
+
+        <h1>
+          <!-- EDITAR: titulares del hero -->
+          <span>El Pádel</span>
+          <span class="line-accent">es aquí</span>
+          <span class="line-outline">al aire libre</span>
+        </h1>
+
+        <!-- EDITAR: descripción -->
+        <p class="hero-desc">Dos canchas profesionales con sintético azul y blindex, al aire libre. Reservá tu turno en segundos, jugá cuando quieras.</p>
+
+        <div class="hero-actions">
+          <button class="btn-primary" onclick="showPage('reservar')">
+            <i class="ti ti-calendar-check" aria-hidden="true"></i>
+            reservar ahora
+          </button>
+          <button class="btn-outline" onclick="showPage('canchas')">
+            <i class="ti ti-arrow-right" aria-hidden="true"></i>
+            ver canchas
+          </button>
+        </div>
+      </div>
+
+      <!-- EDITAR: estadísticas flotantes -->
+      <div class="hero-stats">
+        <div class="hero-stat">
+          <div class="hero-stat-num">2</div>
+          <div class="hero-stat-lbl">Canchas</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-num">7am–11pm</div>
+          <div class="hero-stat-lbl">Horario</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-num">100%</div>
+          <div class="hero-stat-lbl">Al aire libre</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FEATURES -->
+    <div class="section">
+      <div class="section-label">Por qué elegirnos</div>
+      <div class="section-title">Todo para<br><span>jugar bien</span></div>
+      <p class="section-sub">Instalaciones diseñadas para que lo único en lo que pensés sea el juego.</p>
+
+      <div class="features-grid">
+        <!-- EDITAR: características del club -->
+        <div class="feature-item">
+          <i class="ti ti-sun feature-icon" aria-hidden="true"></i>
+          <div class="feature-title">Al aire libre</div>
+          <p class="feature-desc">Canchas 100% al aire libre para disfrutar del sol y el viento de Marcos Paz.</p>
+        </div>
+        <div class="feature-item">
+          <i class="ti ti-layers-subtract feature-icon" aria-hidden="true"></i>
+          <div class="feature-title">Sintetico azul</div>
+          <p class="feature-desc">Piso de césped sintético color azul de alta performance, amortiguación ideal y traction perfecta.</p>
+        </div>
+        <div class="feature-item">
+          <i class="ti ti-border-all feature-icon" aria-hidden="true"></i>
+          <div class="feature-title">Blindex completo</div>
+          <p class="feature-desc">Paredes de blindex en todo el perímetro para rebotes precisos y visión total de la cancha.</p>
+        </div>
+        <div class="feature-item">
+          <i class="ti ti-bulb feature-icon" aria-hidden="true"></i>
+          <div class="feature-title">Iluminacion LED</div>
+          <p class="feature-desc">Sistema LED profesional para jugar de noche con visibilidad perfecta hasta las 23:00.</p>
+        </div>
+        <div class="feature-item">
+          <i class="ti ti-clock feature-icon" aria-hidden="true"></i>
+          <div class="feature-title">Reserva online</div>
+          <p class="feature-desc">Elegí tu horario y cancha desde el celular, sin llamar ni esperar. Confirmación inmediata.</p>
+        </div>
+        <div class="feature-item">
+          <i class="ti ti-tennis feature-icon" aria-hidden="true"></i>
+          <div class="feature-title">Alquiler de paletas</div>
+          <p class="feature-desc">Paletas y pelotas disponibles para alquilar si no traés el equipo.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- CTA BAND -->
+    <div class="cta-band">
+      <!-- EDITAR: precio y mensaje CTA -->
+      <h2>¿Listo para jugar?</h2>
+      <p>Reservá tu turno ahora. Rápido y sin complicaciones.</p>
+      <button class="btn-dark" onclick="showPage('reservar')">
+        <i class="ti ti-calendar-plus" aria-hidden="true"></i>
+        reservar mi turno
+      </button>
+    </div>
+
+    <!-- FOOTER -->
+    <footer>
+      <div class="footer-brand">
+        <div class="logo">LA PANCHA<span> PÁDEL</span></div>
+        <p>Dos canchas profesionales al aire libre en Marcos Paz. Tu lugar para jugar pádel.</p>
+      </div>
+      <div class="footer-info">
+        <span><i class="ti ti-map-pin" aria-hidden="true"></i> Marcos Paz, Buenos Aires</span>
+        <span><i class="ti ti-clock" aria-hidden="true"></i> Lun–Dom, 7:00 – 23:00</span>
+      </div>
+      <div class="footer-copy">© 2025 La Pancha Pádel — Marcos Paz — Todos los derechos reservados</div>
+    </footer>
+
+  </div><!-- /page-home -->
+
+  <!-- ========== PAGE: CANCHAS ========== -->
+  <div id="page-canchas" class="page">
+
+    <div class="courts-detail-hero">
+      <div class="section-label" style="text-align:center">Nuestras instalaciones</div>
+      <div class="section-title" style="text-align:center">Dos canchas<br><span>profesionales</span></div>
+      <p class="section-sub" style="margin:0 auto 0;text-align:center">Sintético azul y blindex, al aire libre, con iluminación LED.</p>
+    </div>
+
+    <div class="section" style="padding-top:56px">
+
+      <!-- CANCHA 1 -->
+      <div class="court-visual">
+        <div class="court-panel">
+          <div class="court-num">1</div>
+          <div class="court-tag">Cancha Norte</div>
+          <!-- EDITAR: datos cancha 1 -->
+          <div class="court-name-big">Cancha 1</div>
+          <p class="court-desc">Sintetico azul · Blindex · Al aire libre<br>Ideal para partidas y torneos.</p>
+          <ul class="court-features">
+            <li><i class="ti ti-check" aria-hidden="true"></i> Piso sintético color azul premium</li>
+            <li><i class="ti ti-check" aria-hidden="true"></i> Paredes de blindex completo</li>
+            <li><i class="ti ti-check" aria-hidden="true"></i> Iluminación LED nocturna</li>
+            <li><i class="ti ti-check" aria-hidden="true"></i> Al aire libre</li>
+            <li><i class="ti ti-check" aria-hidden="true"></i> Capacidad 4 jugadores</li>
+            <li><i class="ti ti-check" aria-hidden="true"></i> Alquiler de paletas disponible</li>
+          </ul>
+        </div>
+        <div class="court-preview">
+          <!-- SVG ilustrativo de cancha -->
+          <svg viewBox="0 0 420 280" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <rect x="20" y="20" width="380" height="240" rx="4" fill="none" stroke="rgba(255,255,255,0.5)" stroke-width="2"/>
+            <rect x="50" y="20" width="320" height="240" fill="none" stroke="rgba(255,255,255,0.25)" stroke-width="1" stroke-dasharray="5 4"/>
+            <line x1="20" y1="140" x2="400" y2="140" stroke="rgba(255,255,255,0.5)" stroke-width="2"/>
+            <line x1="210" y1="20" x2="210" y2="260" stroke="rgba(255,255,255,0.3)" stroke-width="1"/>
+            <rect x="120" y="20" width="180" height="240" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="1"/>
+            <line x1="120" y1="133" x2="300" y2="133" stroke="rgba(255,255,255,0.6)" stroke-width="3"/>
+            <circle cx="210" cy="140" r="4" fill="rgba(255,255,255,0.7)"/>
+            <circle cx="210" cy="140" r="18" fill="none" stroke="rgba(255,255,255,0.25)" stroke-width="1"/>
+          </svg>
+        </div>
+      </div>
+
+      <!-- CANCHA 2 -->
+      <div class="court-visual">
+        <div class="court-preview">
+          <svg viewBox="0 0 420 280" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <rect x="20" y="20" width="380" height="240" rx="4" fill="none" stroke="rgba(255,255,255,0.5)" stroke-width="2"/>
+            <rect x="50" y="20" width="320" height="240" fill="none" stroke="rgba(255,255,255,0.25)" stroke-width="1" stroke-dasharray="5 4"/>
+            <line x1="20" y1="140" x2="400" y2="140" stroke="rgba(255,255,255,0.5)" stroke-width="2"/>
+            <line x1="210" y1="20" x2="210" y2="260" stroke="rgba(255,255,255,0.3)" stroke-width="1"/>
+            <rect x="120" y="20" width="180" height="240" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="1"/>
+            <line x1="120" y1="133" x2="300" y2="133" stroke="rgba(255,255,255,0.6)" stroke-width="3"/>
+            <circle cx="210" cy="140" r="4" fill="rgba(255,255,255,0.7)"/>
+            <circle cx="210" cy="140" r="18" fill="none" stroke="rgba(255,255,255,0.25)" stroke-width="1"/>
+          </svg>
+        </div>
+        <div class="court-panel" style="border-right:none;border-left:1px solid var(--border)">
+          <div class="court-num">2</div>
+          <div class="court-tag">Cancha Sur</div>
+          <!-- EDITAR: datos cancha 2 -->
+          <div class="court-name-big">Cancha 2</div>
+          <p class="court-desc">Sintetico azul · Blindex · Al aire libre<br>Clásica y rápida para jugadores de todos los niveles.</p>
+          <ul class="court-features">
+            <li><i class="ti ti-check" aria-hidden="true"></i> Piso sintético color azul premium</li>
+            <li><i class="ti ti-check" aria-hidden="true"></i> Paredes de blindex completo</li>
+            <li><i class="ti ti-check" aria-hidden="true"></i> Iluminación LED nocturna</li>
+            <li><i class="ti ti-check" aria-hidden="true"></i> Al aire libre</li>
+            <li><i class="ti ti-check" aria-hidden="true"></i> Capacidad 4 jugadores</li>
+            <li><i class="ti ti-check" aria-hidden="true"></i> Zona de calentamiento</li>
+          </ul>
+        </div>
+      </div>
+
+      <div style="text-align:center;margin-top:16px">
+        <button class="btn-primary" onclick="showPage('reservar')">
+          <i class="ti ti-calendar-plus" aria-hidden="true"></i>
+          reservar una cancha
+        </button>
+      </div>
+    </div>
+
+    <!-- FOOTER repetido en canchas -->
+    <footer>
+      <div class="footer-brand">
+        <div class="logo">PÁDEL<span>CLUB</span></div>
+        <p>Dos canchas profesionales al aire libre en Marcos Paz.</p>
+      </div>
+      <div class="footer-info">
+        <span><i class="ti ti-map-pin" aria-hidden="true"></i> Marcos Paz, Buenos Aires</span>
+        <span><i class="ti ti-clock" aria-hidden="true"></i> Lun–Dom, 7:00 – 23:00</span>
+      </div>
+      <div class="footer-copy">© 2025 Pádel Club Marcos Paz</div>
+    </footer>
+  </div><!-- /page-canchas -->
+
+  <!-- ========== PAGE: RESERVAR ========== -->
+  <div id="page-reservar" class="page">
+
+    <div class="booking-header">
+      <div class="section-label">Turno online</div>
+      <div class="section-title" style="text-align:center">Reservá tu<br><span>turno</span></div>
+      <p class="section-sub" style="margin:0 auto;text-align:center">Elegí cancha, fecha y horario. Rápido y sin complicaciones.</p>
+    </div>
+
+    <div class="booking-wrap">
+      <div class="booking-panel">
+
+        <!-- Steps -->
+        <div class="booking-steps">
+          <div class="step active" id="step1">
+            <div class="step-num">1</div>
+            <div class="step-text">Tus datos</div>
+          </div>
+          <div class="step-line"></div>
+          <div class="step" id="step2">
+            <div class="step-num">2</div>
+            <div class="step-text">Horario</div>
+          </div>
+          <div class="step-line"></div>
+          <div class="step" id="step3">
+            <div class="step-num">3</div>
+            <div class="step-text">Confirmar</div>
+          </div>
+        </div>
+
+        <div class="booking-body">
+          <div class="booking-grid">
+            <div class="form-group">
+              <label class="form-label">Cancha</label>
+              <select class="form-select" id="sel-cancha" onchange="updateSlots()">
+                <option value="">— seleccionar —</option>
+                <!-- EDITAR: nombres de canchas -->
+                <option value="1">Cancha 1 — Cristal Norte</option>
+                <option value="2">Cancha 2 — Blindex Sur</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Fecha</label>
+              <input type="date" class="form-input" id="sel-fecha" onchange="updateSlots()" />
+            </div>
+            <div class="form-group">
+              <label class="form-label">Tu nombre</label>
+              <input type="text" class="form-input" id="inp-nombre" placeholder="Ej: Lucas García" oninput="checkForm()" />
+            </div>
+            <div class="form-group">
+              <label class="form-label">Teléfono / WhatsApp</label>
+              <input type="text" class="form-input" id="inp-tel" placeholder="Ej: 2227-XXXXXX" oninput="checkForm()" />
+            </div>
+          </div>
+
+          <div id="slots-section" style="display:none">
+            <p class="slots-label">Horarios disponibles</p>
+            <div class="time-slots" id="slots-grid"></div>
+          </div>
+
+          <div class="confirm-box" id="confirm-box">
+            <div class="confirm-row"><span>Cancha</span><span id="c-cancha">—</span></div>
+            <div class="confirm-row"><span>Fecha</span><span id="c-fecha">—</span></div>
+            <div class="confirm-row"><span>Horario</span><span id="c-hora">—</span></div>
+            <div class="confirm-row"><span>Jugador</span><span id="c-nombre">—</span></div>
+            <!-- EDITAR: precio -->
+            <div class="confirm-row confirm-total"><span>Total</span><span id="c-precio">$8.000</span></div>
+          </div>
+
+          <button class="book-btn" id="book-btn" onclick="confirmarReserva()">
+            <span class="book-btn-inner">
+              <i class="ti ti-calendar-check" aria-hidden="true"></i>
+              confirmar reserva
+            </span>
+            <span class="book-btn-shine"></span>
+          </button>
+
+          <div class="success-msg" id="success-msg">
+            <i class="ti ti-circle-check success-icon" aria-hidden="true"></i>
+            <h3>¡Turno confirmado!</h3>
+            <p id="success-detail"></p>
+            <button class="btn-outline" style="margin-top:20px;display:inline-flex" onclick="resetBooking()">
+              hacer otra reserva
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div><!-- /page-reservar -->
+
+  <!-- ========== PAGE: ADMIN LOGIN ========== -->
+  <div id="page-admin-login" class="page">
+    <div class="login-wrap">
+      <div class="login-card" id="login-card">
+        <div class="login-logo">LA PANCHA<span> PÁDEL</span></div>
+        <div class="login-sub">Panel de administración</div>
+        <div class="login-form">
+          <div class="form-group">
+            <label class="form-label">Usuario</label>
+            <!-- EDITAR: usuario en config.js -->
+            <input type="text" class="form-input" id="admin-user" placeholder="admin"
+              onkeydown="if(event.key==='Enter') adminLogin()" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Contraseña</label>
+            <input type="password" class="form-input" id="admin-pass" placeholder="••••••••"
+              onkeydown="if(event.key==='Enter') adminLogin()" />
+          </div>
+          <button class="btn-primary" style="width:100%;justify-content:center;margin-top:8px" onclick="adminLogin()">
+            <i class="ti ti-lock-open" aria-hidden="true"></i>
+            ingresar al panel
+          </button>
+          <div id="login-err" class="login-err">Usuario o contraseña incorrectos</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== PAGE: ADMIN PANEL ========== -->
+  <div id="page-admin" class="page">
+
+    <div class="admin-header">
+      <div class="admin-title">panel <span>admin</span></div>
+      <button class="btn-outline" style="padding:8px 18px;font-size:13px" onclick="adminLogout()">
+        <i class="ti ti-logout" aria-hidden="true"></i> salir
+      </button>
+    </div>
+
+    <div class="admin-nav">
+      <button class="anav-btn active" onclick="showAdminTab('overview')">resumen</button>
+      <button class="anav-btn" onclick="showAdminTab('reservas')">reservas</button>
+      <button class="anav-btn" onclick="showAdminTab('agenda')">agenda semanal</button>
+    </div>
+
+    <!-- Tab: Overview -->
+    <div id="admin-overview">
+      <div class="admin-grid">
+        <div class="metric-card">
+          <div class="metric-label">Reservas hoy</div>
+          <div class="metric-value lime" id="m-hoy">0</div>
+          <div class="metric-sub">en ambas canchas</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label">Total reservas activas</div>
+          <div class="metric-value lime" id="m-semana">0</div>
+          <div class="metric-sub">confirmadas</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label">Ingresos estimados</div>
+          <div class="metric-value" id="m-ingresos">$0</div>
+          <div class="metric-sub" id="m-ingresos-sub">basado en reservas activas</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label">Próximo turno libre</div>
+          <div class="metric-value" id="m-libre" style="font-size:26px">—</div>
+          <div class="metric-sub" id="m-libre-sub"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tab: Reservas -->
+    <div id="admin-reservas" style="display:none">
+      <div class="bookings-table">
+        <div class="table-header">
+          <div class="table-title">todas las reservas</div>
+          <span class="table-count" id="res-count">0 registros</span>
+        </div>
+        <table>
+          <thead>
+            <tr>
+              <th>Jugador</th>
+              <th>Cancha</th>
+              <th>Fecha</th>
+              <th>Horario</th>
+              <th>Estado</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody id="reservas-tbody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Tab: Agenda -->
+    <div id="admin-agenda" style="display:none">
+      <div class="schedule-grid">
+        <div id="agenda-content"></div>
+      </div>
+    </div>
+
+  </div><!-- /page-admin -->
+
+  <!-- Scripts -->
+  <script src="js/config.js"></script>
+  <script src="js/bookings.js"></script>
+  <script src="js/admin.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
