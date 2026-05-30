@@ -342,7 +342,7 @@ function exportCSV() {
 
 /* ── Agenda con vistas ── */
 let agendaOffset  = 0;
-let agendaDays    = 5;
+let agendaDays    = 1;
 
 function setAgendaView(days, btn) {
   agendaDays = days;
