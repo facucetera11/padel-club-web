@@ -2527,16 +2527,22 @@ tr:hover td { background: rgba(255,255,255,0.02); }
   width: auto;
   cursor: pointer;
   object-fit: contain;
-  /* El logo es blanco sobre negro — mix-blend-mode screen elimina el fondo negro */
-  mix-blend-mode: screen;
-  transition: opacity 0.2s;
+  border-radius: 10px;
+  background: rgba(255,255,255,0.08);
+  padding: 4px 8px;
+  transition: opacity 0.2s, background 0.2s;
 }
-.logo-img:hover { opacity: 0.85; }
+.logo-img:hover {
+  opacity: 0.85;
+  background: rgba(255,255,255,0.14);
+}
 
 /* En footer */
 footer .logo-img {
   height: 48px;
-  mix-blend-mode: screen;
+  background: rgba(255,255,255,0.06);
+  padding: 4px 8px;
+  border-radius: 10px;
 }
 
 /* Login */
@@ -2544,5 +2550,7 @@ footer .logo-img {
   height: 100px;
   margin: 0 auto 16px;
   display: block;
-  mix-blend-mode: screen;
+  background: rgba(255,255,255,0.06);
+  padding: 8px 16px;
+  border-radius: 14px;
 }

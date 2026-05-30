@@ -257,13 +257,10 @@ function confirmarReserva() {
   document.getElementById("slots-section").style.display = "none";
 
   const fechaLabel = new Date(fecha + "T12:00").toLocaleDateString("es-AR", { weekday: "long", day: "numeric", month: "long" });
-  document.getElementById("success-detail").textContent =
-    cancha.nombre + " · " + fechaLabel + " · " + selectedSlot + " hs — ¡Te esperamos!";
-  document.getElementById("success-msg").style.display = "block";
+  const horaFin = (parseInt(selectedSlot) + 1).toString().padStart(2, "0") + ":00";
 
   // Armar link WhatsApp
-  const horaFin = (parseInt(selectedSlot) + 1).toString().padStart(2, "0") + ":00";
-  const msgWpp  = encodeURIComponent(
+  const msgWpp = encodeURIComponent(
     `Hola! Quiero confirmar mi reserva en La Pancha Pádel 🎾\n\n` +
     `👤 Nombre: ${nombre}\n` +
     `📞 Tel: ${tel}\n` +
@@ -273,8 +270,23 @@ function confirmarReserva() {
     `💵 Efectivo: $${CONFIG.precioEfectivo.toLocaleString("es-AR")} | 📲 Transferencia: $${CONFIG.precioTransferencia.toLocaleString("es-AR")}\n\n` +
     `¡Gracias!`
   );
+  const wppUrl = `https://wa.me/${CONFIG.whatsappNumero}?text=${msgWpp}`;
+
+  // Mostrar éxito con estado "pendiente de confirmación WA"
+  document.getElementById("success-detail").textContent =
+    cancha.nombre + " · " + fechaLabel + " · " + selectedSlot + " hs";
+  document.getElementById("success-msg").style.display = "block";
+
+  // Botón WA siempre visible y destacado como paso obligatorio
   const wppBtn = document.getElementById("success-wpp-btn");
-  if (wppBtn) { wppBtn.href = `https://wa.me/${CONFIG.whatsappNumero}?text=${msgWpp}`; wppBtn.style.display = "flex"; }
+  if (wppBtn) {
+    wppBtn.href = wppUrl;
+    wppBtn.style.display = "flex";
+    wppBtn.innerHTML = `<i class="ti ti-brand-whatsapp"></i> Confirmar por WhatsApp <span style="font-size:11px;opacity:0.8;margin-left:4px">(requerido)</span>`;
+  }
+
+  // Abrir WhatsApp automáticamente
+  setTimeout(() => { window.open(wppUrl, "_blank", "noopener"); }, 400);
 
   document.getElementById("success-msg").scrollIntoView({ behavior: "smooth" });
   renderAvailToday();
