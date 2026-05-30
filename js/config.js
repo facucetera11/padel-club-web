@@ -56,3 +56,32 @@ const CONFIG = {
   adminUsuario: "admin",
   adminPassword: "padel2025",
 };
+
+// ============================================================
+//  Persistencia: carga y guarda config en localStorage
+// ============================================================
+
+(function loadSavedConfig() {
+  try {
+    const saved = localStorage.getItem("lapancha_config");
+    if (!saved) return;
+    const s = JSON.parse(saved);
+    if (s.precioEfectivo      !== undefined) CONFIG.precioEfectivo      = s.precioEfectivo;
+    if (s.precioTransferencia !== undefined) CONFIG.precioTransferencia = s.precioTransferencia;
+    if (s.whatsappNumero      !== undefined) CONFIG.whatsappNumero      = s.whatsappNumero;
+    if (s.mensajeCierre       !== undefined) CONFIG.mensajeCierre       = s.mensajeCierre;
+    if (s.clubAbierto         !== undefined) CONFIG.clubAbierto         = s.clubAbierto;
+  } catch(e) { /* si falla, usa defaults */ }
+})();
+
+function saveConfig() {
+  try {
+    localStorage.setItem("lapancha_config", JSON.stringify({
+      precioEfectivo:      CONFIG.precioEfectivo,
+      precioTransferencia: CONFIG.precioTransferencia,
+      whatsappNumero:      CONFIG.whatsappNumero,
+      mensajeCierre:       CONFIG.mensajeCierre,
+      clubAbierto:         CONFIG.clubAbierto,
+    }));
+  } catch(e) {}
+}

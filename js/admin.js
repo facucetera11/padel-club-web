@@ -316,12 +316,14 @@ function renderReservas() {
 function confirmReserva(id) {
   const b = bookings.find(b => b.id === id);
   if (b) b.estado = "confirmed";
+  saveBookings();
   renderReservas();
   updateAdminMetrics();
 }
 function cancelReserva(id) {
   const b = bookings.find(b => b.id === id);
   if (b) b.estado = "cancelled";
+  saveBookings();
   renderReservas();
   updateAdminMetrics();
 }
@@ -485,6 +487,7 @@ function adminCrearReserva() {
 
   const cancha = CONFIG.canchas.find(c => c.id === parseInt(canchaId));
   bookings.push({ id: nextId++, nombre, tel, cancha: cancha.nombre, fecha, hora, estado });
+  saveBookings();
 
   msg.textContent = `✓ Reserva creada: ${nombre} · ${cancha.nombre} · ${fecha} ${hora}`;
   msg.className   = "an-msg an-success";
@@ -692,6 +695,7 @@ function updateClubStatusUI() {
 
 function cfgSetClubStatus(abierto) {
   CONFIG.clubAbierto = abierto;
+  saveConfig();
   updateClubStatusUI();
   // Actualizar banner en página reservar si está visible
   const closedBanner = document.getElementById("bk-closed-banner");
@@ -720,6 +724,9 @@ function cfgGuardar() {
   if (msg) CONFIG.mensajeCierre = msg;
   CONFIG.precioEfectivo      = ef;
   CONFIG.precioTransferencia = tr;
+
+  // Persistir
+  saveConfig();
 
   // Actualizar sidebar de reservas si está visible
   const efEl = document.getElementById("bk-precio-efectivo");

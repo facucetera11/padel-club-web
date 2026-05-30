@@ -2520,3 +2520,26 @@ tr:hover td { background: rgba(255,255,255,0.02); }
   transition: background 0.2s, transform 0.15s;
 }
 .btn-wpp:hover { background: #1ebe5d; transform: translateY(-1px); }
+
+/* ── Logo imagen ── */
+.logo-img {
+  height: 44px;
+  width: auto;
+  cursor: pointer;
+  object-fit: contain;
+  /* Logo es blanco sobre negro — invertir para que se vea sobre fondo oscuro */
+  filter: invert(1);
+  transition: opacity 0.2s;
+}
+.logo-img:hover { opacity: 0.8; }
+
+/* En footer queda igual */
+footer .logo-img { height: 36px; }
+
+/* Login */
+.login-logo-img {
+  height: 80px;
+  margin: 0 auto 8px;
+  display: block;
+  filter: invert(1);
+}

@@ -6,6 +6,24 @@ let bookings = [];
 let nextId = 1;
 let selectedSlot = null;
 
+// Cargar reservas guardadas
+(function loadBookings() {
+  try {
+    const saved = localStorage.getItem("lapancha_bookings");
+    if (saved) {
+      const data = JSON.parse(saved);
+      bookings = data.bookings || [];
+      nextId   = data.nextId   || (bookings.length > 0 ? Math.max(...bookings.map(b => b.id)) + 1 : 1);
+    }
+  } catch(e) {}
+})();
+
+function saveBookings() {
+  try {
+    localStorage.setItem("lapancha_bookings", JSON.stringify({ bookings, nextId }));
+  } catch(e) {}
+}
+
 function getHours() {
   const hours = [];
   for (let h = CONFIG.horarioApertura; h < CONFIG.horarioCierre; h++) {
@@ -232,6 +250,7 @@ function confirmarReserva() {
   const cancha   = CONFIG.canchas.find(c => c.id === canchaId);
 
   bookings.push({ id: nextId++, nombre, tel, cancha: cancha.nombre, fecha, hora: selectedSlot, estado: "confirmed" });
+  saveBookings();
 
   document.getElementById("confirm-box").style.display  = "none";
   document.getElementById("book-btn").style.display     = "none";
