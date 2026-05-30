@@ -6,8 +6,8 @@ const CONFIG = {
 
   // --- Identidad ---
   nombre:    "La Pancha Pádel",
-  tagline:   "Marcos Paz",
-  localidad: "Marcos Paz, Buenos Aires",
+  tagline:   "General Las Heras",
+  localidad: "General Las Heras, Buenos Aires",
 
   // --- Precio y horarios ---
   precioPorHora:   8000,

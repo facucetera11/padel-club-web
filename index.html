@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>La Pancha Pádel — Marcos Paz</title>
+  <title>La Pancha Pádel — General Las Heras</title>
   <link rel="stylesheet" href="css/style.css" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -14,7 +14,7 @@
 
   <!-- ========== NAVBAR ========== -->
   <nav id="navbar">
-    <div class="logo" onclick="showPage('home')">LA PANCHA<span> PÁDEL</span></div>
+    <div class="logo" onclick="showPage('home')">PÁDEL<span>CLUB</span></div>
     <div class="nav-links">
       <button class="nav-btn active" onclick="showPage('home')">inicio</button>
       <button class="nav-btn" onclick="showPage('canchas')">canchas</button>
@@ -56,18 +56,16 @@
         <div class="hero-pill">
           <i class="ti ti-map-pin" aria-hidden="true"></i>
           <!-- EDITAR: localidad -->
-          Marcos Paz, Buenos Aires
+          General Las Heras, Buenos Aires
         </div>
 
         <h1>
-          <!-- EDITAR: titulares del hero -->
-          <span>El Pádel</span>
-          <span class="line-accent">es aquí</span>
-          <span class="line-outline">al aire libre</span>
+          <span class="line-name">La Pancha</span>
+          <span class="line-accent">Pádel</span>
         </h1>
 
         <!-- EDITAR: descripción -->
-        <p class="hero-desc">Dos canchas profesionales con sintético azul y blindex, al aire libre. Reservá tu turno en segundos, jugá cuando quieras.</p>
+        <p class="hero-desc">Canchas profesionales al aire libre en General Las Heras. Reservá tu turno en segundos.</p>
 
         <div class="hero-actions">
           <button class="btn-primary" onclick="showPage('reservar')">
@@ -75,27 +73,12 @@
             reservar ahora
           </button>
           <button class="btn-outline" onclick="showPage('canchas')">
-            <i class="ti ti-arrow-right" aria-hidden="true"></i>
             ver canchas
           </button>
         </div>
       </div>
 
-      <!-- EDITAR: estadísticas flotantes -->
-      <div class="hero-stats">
-        <div class="hero-stat">
-          <div class="hero-stat-num">2</div>
-          <div class="hero-stat-lbl">Canchas</div>
-        </div>
-        <div class="hero-stat">
-          <div class="hero-stat-num">7am–11pm</div>
-          <div class="hero-stat-lbl">Horario</div>
-        </div>
-        <div class="hero-stat">
-          <div class="hero-stat-num">100%</div>
-          <div class="hero-stat-lbl">Al aire libre</div>
-        </div>
-      </div>
+
     </div>
 
     <!-- FEATURES -->
@@ -143,7 +126,7 @@
     <div class="cta-band">
       <!-- EDITAR: precio y mensaje CTA -->
       <h2>¿Listo para jugar?</h2>
-      <p>Reservá tu turno ahora. Rápido y sin complicaciones.</p>
+      <p>Reservá tu turno ahora desde $8.000 la hora. Rápido y sin complicaciones.</p>
       <button class="btn-dark" onclick="showPage('reservar')">
         <i class="ti ti-calendar-plus" aria-hidden="true"></i>
         reservar mi turno
@@ -153,14 +136,17 @@
     <!-- FOOTER -->
     <footer>
       <div class="footer-brand">
-        <div class="logo">LA PANCHA<span> PÁDEL</span></div>
-        <p>Dos canchas profesionales al aire libre en Marcos Paz. Tu lugar para jugar pádel.</p>
+        <div class="logo">PÁDEL<span>CLUB</span></div>
+        <!-- EDITAR: descripción del club en footer -->
+        <p>Dos canchas profesionales al aire libre en General Las Heras. Tu lugar para jugar pádel.</p>
       </div>
       <div class="footer-info">
-        <span><i class="ti ti-map-pin" aria-hidden="true"></i> Marcos Paz, Buenos Aires</span>
+        <!-- EDITAR: info de contacto -->
+        <span><i class="ti ti-map-pin" aria-hidden="true"></i> General Las Heras, Buenos Aires</span>
         <span><i class="ti ti-clock" aria-hidden="true"></i> Lun–Dom, 7:00 – 23:00</span>
+        <span><i class="ti ti-currency-dollar" aria-hidden="true"></i> $8.000 por hora</span>
       </div>
-      <div class="footer-copy">© 2025 La Pancha Pádel — Marcos Paz — Todos los derechos reservados</div>
+      <div class="footer-copy">© 2025 Pádel Club Marcos Paz — Todos los derechos reservados</div>
     </footer>
 
   </div><!-- /page-home -->
@@ -254,7 +240,7 @@
         <p>Dos canchas profesionales al aire libre en Marcos Paz.</p>
       </div>
       <div class="footer-info">
-        <span><i class="ti ti-map-pin" aria-hidden="true"></i> Marcos Paz, Buenos Aires</span>
+        <span><i class="ti ti-map-pin" aria-hidden="true"></i> General Las Heras, Buenos Aires</span>
         <span><i class="ti ti-clock" aria-hidden="true"></i> Lun–Dom, 7:00 – 23:00</span>
       </div>
       <div class="footer-copy">© 2025 Pádel Club Marcos Paz</div>
@@ -331,11 +317,8 @@
           </div>
 
           <button class="book-btn" id="book-btn" onclick="confirmarReserva()">
-            <span class="book-btn-inner">
-              <i class="ti ti-calendar-check" aria-hidden="true"></i>
-              confirmar reserva
-            </span>
-            <span class="book-btn-shine"></span>
+            <i class="ti ti-calendar-check" aria-hidden="true"></i>
+            confirmar reserva
           </button>
 
           <div class="success-msg" id="success-msg">
@@ -355,7 +338,7 @@
   <div id="page-admin-login" class="page">
     <div class="login-wrap">
       <div class="login-card" id="login-card">
-        <div class="login-logo">LA PANCHA<span> PÁDEL</span></div>
+        <div class="login-logo">PÁDEL<span>CLUB</span></div>
         <div class="login-sub">Panel de administración</div>
         <div class="login-form">
           <div class="form-group">
@@ -411,7 +394,8 @@
         <div class="metric-card">
           <div class="metric-label">Ingresos estimados</div>
           <div class="metric-value" id="m-ingresos">$0</div>
-          <div class="metric-sub" id="m-ingresos-sub">basado en reservas activas</div>
+          <!-- EDITAR: actualiza precio en config.js -->
+          <div class="metric-sub">@$8.000/hora</div>
         </div>
         <div class="metric-card">
           <div class="metric-label">Próximo turno libre</div>
